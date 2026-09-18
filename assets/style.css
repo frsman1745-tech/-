@@ -688,3 +688,63 @@
     will-change:transform;pointer-events:none;
   }
   html[dir="rtl"] .scroll-progress{transform-origin:right center;}
+
+  /* ==================== شاشة التحميل ==================== */
+  .boot{
+    position:fixed;inset:0;z-index:9998;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(120% 90% at 50% 0%,rgba(31,45,62,.35),transparent 55%),
+      linear-gradient(160deg,#0D1B2A 0%,#12263A 46%,#0A1521 100%);
+    color:var(--gold);direction:rtl;
+    transition:opacity .55s ease,visibility .55s;
+  }
+  .boot *{box-sizing:border-box;}
+  .boot-inner{
+    position:relative;display:flex;flex-direction:column;align-items:center;
+    gap:14px;text-align:center;
+  }
+  .boot-ring{
+    position:absolute;top:50%;left:50%;width:248px;height:248px;
+    margin:-124px 0 0 -124px;border-radius:50%;
+    background:
+      radial-gradient(circle at center,transparent 58%,rgba(198,161,91,.12) 60%,transparent 64%);
+    animation:bootSpin 9s linear infinite;
+    pointer-events:none;
+  }
+  .boot-ring i{
+    position:absolute;top:-6px;left:50%;width:5px;height:28px;margin-left:-2.5px;
+    border-radius:4px;background:linear-gradient(180deg,var(--gold),transparent);
+    box-shadow:0 0 12px rgba(198,161,91,.8);
+  }
+  @keyframes bootSpin{to{transform:rotate(360deg);}}
+  .boot-logo{
+    width:96px;height:96px;object-fit:cover;border-radius:50%;
+    border:2px solid rgba(198,161,91,.55);outline:6px solid rgba(198,161,91,.12);
+    background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  .boot-name{font-family:'Aref Ruqaa',serif;font-size:2.4rem;color:var(--gold-soft);letter-spacing:.5px;}
+  .boot-sub{font-family:'Tajawal',sans-serif;font-size:.92rem;color:rgba(231,213,168,.72);}
+  .boot-pct{
+    display:flex;align-items:baseline;gap:3px;margin-top:6px;
+    font-style:normal;color:var(--gold-soft);
+  }
+  .boot-pct b{font-family:'Tajawal',sans-serif;font-size:1.5rem;line-height:1;}
+  .boot-pct span{font-size:.95rem;}
+  .boot-bar{
+    display:block;width:min(260px,64vw);height:3px;border-radius:99px;
+    background:rgba(198,161,91,.18);overflow:hidden;margin-top:4px;
+  }
+  .boot-bar i{
+    display:block;height:100%;width:0;border-radius:99px;
+    background:linear-gradient(90deg,var(--gold),#EED38E);
+    box-shadow:0 0 14px rgba(230,211,142,.85);
+    transition:width .22s ease;
+  }
+  .boot.done{opacity:0;visibility:hidden;}
+  .no-scroll{overflow:hidden;}
+
+  @media (prefers-reduced-motion: reduce){
+    .boot-ring{animation:none;}
+    .boot{transition:none;}
+  }

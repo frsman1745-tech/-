@@ -22,12 +22,12 @@ export default defineConfig({
   plugins: [
     react(),
     copyDirToDist(
-      fileURLToPath(new URL('imag 2', import.meta.url)),
-      fileURLToPath(new URL('dist/imag 2', import.meta.url))
+      fileURLToPath(new URL('imag 2/opt', import.meta.url)),
+      fileURLToPath(new URL('dist/imag 2/opt', import.meta.url))
     ),
     copyDirToDist(
-      fileURLToPath(new URL('imeg', import.meta.url)),
-      fileURLToPath(new URL('dist/imeg', import.meta.url))
+      fileURLToPath(new URL('imeg/opt', import.meta.url)),
+      fileURLToPath(new URL('dist/imeg/opt', import.meta.url))
     )
   ],
   server: {
