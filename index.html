@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-page="home">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الشامية | Al Shamieh — طعم دمشق الحلو</title>
+<meta name="description" content="حلويات شرقية أصيلة ومأكولات شامية من قلب دمشق. ضيافة راقية، حرفية في التحضير، وطعم يستحق أن يُشارك.">
+<link rel="icon" href="assets/logo.jpg">
+<link rel="apple-touch-icon" href="assets/logo.jpg">
+<meta property="og:title" content="الشامية | طعم دمشق الحلو">
+<meta property="og:description" content="حلويات شرقية أصيلة ومأكولات شامية من قلب دمشق.">
+<meta property="og:image" content="assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container bar">
+    <a class="brand-logo" href="index.html" aria-label="الشامية — الرئيسية">
+      <img src="assets/logo.jpg" alt="شعار حلويات الشامية">
+    </a>
+    <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي" data-i18n="navAria" data-i18n-attr="aria-label">
+      <a href="index.html" data-i18n="navHome">الرئيسية</a>
+      <a href="sweets.html" data-i18n="navSweets">الحلو</a>
+      <a href="dry.html" data-i18n="navDry">النواشف</a>
+      <a href="mansaf.html" data-i18n="navMansaf">المناسف</a>
+      <a href="mahashi.html" data-i18n="navMahashi">المحاشي</a>
+      <a href="#contact" data-i18n="navContact">تواصل</a>
+    </nav>
+
+    <div class="header-cta">
+      <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+        <span id="langLabel">EN</span>
+      </button>
+      <button class="btn btn-gold" data-open-modal>
+        <span data-i18n="orderNow">اطلب الآن</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button class="burger" id="burger" aria-label="فتح القائمة" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="kicker"><i></i><span class="en" data-i18n="heroKicker">الطعم الأصيل لدمشق</span></div>
+      <h1 data-i18n="heroTitle">
+        <span class="line"><span>حلويات <span class="gold">الشامية</span></span></span>
+        <span class="line"><span>نكهة دمشق</span></span>
+        <span class="line line-sm"><span>الأصيلة <span class="gold-2">على مائدتكم</span></span></span>
+      </h1>
+      <p class="lead" data-i18n="heroLead">حلويات شرقية أصيلة، نواشف، مناسف ومحاشٍ تُحضَّر يومياً بفستق حلبي طبيعي، وتُقدَّم بروح الضيافة الدمشقية.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="#cats" data-i18n="heroCta1">تصفح الأقسام</a>
+        <a class="btn btn-ghost" href="#contact" data-i18n="heroCta2">اطلب الآن</a>
+      </div>
+      <div class="hero-stats" role="list" data-i18n="heroStatsAria" data-i18n-attr="aria-label">
+        <div role="listitem"><b>35<em>+</em></b><small data-i18n="heroStats1">سنة حرفية</small></div>
+        <div role="listitem"><b>50<em>+</em></b><small data-i18n="heroStats2">صنفاً يومياً</small></div>
+        <div role="listitem"><b>100<em>%</em></b><small data-i18n="heroStats3">فستق حلبي</small></div>
+      </div>
+      <div class="hero-note">
+        <span class="stars">★★★★★</span>
+        <span data-i18n="heroNote">محبوبة من آلاف العائلات في دمشق وخارجها</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <img src="assets/image_05.png" alt="صينية بقلاوة مشكلة بالفستق الحلبي من الشامية" data-i18n="heroSealAlt" data-i18n-attr="alt" loading="eager">
+        <div class="tag"><i></i><span data-i18n="heroTag">فستق حلبي · قطر طبيعي</span></div>
+        <div class="hero-float">
+          <span class="dot"><img src="assets/image_06.webp" alt="" loading="lazy"></span>
+          <span>
+            <b data-i18n="heroFloatB">بقلاوة الشامية</b>
+            <small data-i18n="heroFloatS">مقرمشة ومغموسة بالقطر<br>تُحضَّر طازجة كل يوم</small>
+          </span>
+        </div>
+      </div>
+      <div class="float-ring"><span data-i18n="heroRing">DAMASCUS</span></div>
+
+      <div class="hero-strip">
+        <img src="assets/image_06.webp" alt="" loading="lazy">
+        <span>
+          <b data-i18n="heroFloatB">بقلاوة الشامية</b>
+          <small data-i18n="heroFloatS">مقرمشة ومغموسة بالقطر<br>تُحضَّر طازجة كل يوم</small>
+        </span>
+        <span class="stars" aria-hidden="true">★★★★★</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-label="أصناف الشامية" data-i18n="marqueeAria" data-i18n-attr="aria-label">
+  <div class="marquee-track" id="mqTrack">
+    <img class="mq" src="assets/image_01.jpg" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_02.png" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_03.png" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_04.png" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_05.png" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_06.webp" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_07.webp" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_08.png" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_09.webp" alt="" aria-hidden="true" loading="lazy">
+  </div>
+</div>
+
+<!-- ============ CATEGORIES (فكرة الصفحة الرئيسية) ============ -->
+<section class="cats" id="cats">
+  <div class="container">
+    <div class="cat-head" data-reveal>
+      <span class="eyebrow" data-i18n="catsEyebrow">قائمة الشامية</span>
+      <h2 data-i18n="catsTitle">أربعة أقسام… ومذاق لا يُنسى</h2>
+      <p data-i18n="catsLead">اخترنا لكم خلاصة المطبخ الدمشقي في أربعة أقسام: حلو طري، نواشف مقرمشة، مناسف سخية، ومحاشٍ على الطريقة المنزلية. تفضّلوا، فلكل ذوقٍ نصيب.</p>
+    </div>
+    <div class="cats-grid">
+      <a class="cat-card" href="sweets.html" data-reveal>
+        <img src="assets/image_06.webp" alt="قسم الحلو — حلويات شرقية" loading="lazy">
+        <div class="cat-body">
+          <span class="tag en" data-i18n="cardSweetTag">Sweet</span>
+          <h3 data-i18n="cardSweetTitle">الحلو</h3>
+          <p data-i18n="cardSweetText">بقلاوة بالفستق الحلبي، كنافة، وحلويات مشكّلة — أجمل ما تُقدّمه دمشق.</p>
+          <span class="go"><span data-i18n="cardGo">تصفح القسم</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </span>
+        </div>
+      </a>
+      <a class="cat-card" href="dry.html" data-reveal>
+        <img src="assets/image_03.png" alt="قسم النواشف — غريبة وبسكويت" loading="lazy">
+        <div class="cat-body">
+          <span class="tag en" data-i18n="cardDryTag">Dry</span>
+          <h3 data-i18n="cardDryTitle">النواشف</h3>
+          <p data-i18n="cardDryText">غريبة، معمول بالتمر، وبيتي فور — رفيقة القهوة في كل جلسة.</p>
+          <span class="go"><span data-i18n="cardGo">تصفح القسم</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </span>
+        </div>
+      </a>
+      <a class="cat-card" href="mansaf.html" data-reveal>
+        <img src="assets/image_09.webp" alt="قسم المناسف — صواني رز باللحم" loading="lazy">
+        <div class="cat-body">
+          <span class="tag en" data-i18n="cardMansafTag">Trays</span>
+          <h3 data-i18n="cardMansafTitle">المناسف</h3>
+          <p data-i18n="cardMansafText">صواني كبيرة من الرز باللحم أو الدجاج — ضيافة سخية تكفي كل الحضور.</p>
+          <span class="go"><span data-i18n="cardGo">تصفح القسم</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </span>
+        </div>
+      </a>
+      <a class="cat-card" href="mahashi.html" data-reveal>
+        <img src="assets/image_04.png" alt="قسم المحاشي — كوسا وملفوف محشي" loading="lazy">
+        <div class="cat-body">
+          <span class="tag en" data-i18n="cardMahashiTag">Stuffed</span>
+          <h3 data-i18n="cardMahashiTitle">المحاشي</h3>
+          <p data-i18n="cardMahashiText">كوسا، ملفوف، ويبرق باللبن — دفء البيت الشامي على مائدتكم.</p>
+          <span class="go"><span data-i18n="cardGo">تصفح القسم</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats" id="stats">
+  <div class="container">
+    <div class="stats-head">
+      <div data-reveal>
+        <span class="eyebrow" data-i18n="statsEyebrow">أرقام</span>
+        <h2 data-i18n="statsTitle">أرقام تحكي عن<br>حرفة توارثناها جيلاً بعد جيل</h2>
+      </div>
+      <p class="side" data-reveal data-i18n="statsSide">من رقّة عجينة البقلاوة إلى سخاء منسف العائلة، نعطي كل تفصيلة حقّها لتصل إلى مائدتكم في أبهى صورة.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" data-reveal>
+        <b><span class="count" data-count="35">0</span><em>+</em></b>
+        <p data-i18n="stat1">سنة من الخبرة في صناعة الحلويات الشامية</p>
+      </div>
+      <div class="stat-card" data-reveal>
+        <b><span class="count" data-count="50">0</span><em>+</em></b>
+        <p data-i18n="stat2">صنفاً من الحلويات والأطباق تُحضَّر يومياً</p>
+      </div>
+      <div class="stat-card" data-reveal>
+        <b><span class="count" data-count="100">0</span><em>%</em></b>
+        <p data-i18n="stat3">فستق حلبي طبيعي في الحشوات — بلا أي مواد صناعية</p>
+      </div>
+      <div class="stat-card" data-reveal>
+        <b><span class="count" data-count="23">0</span><em class="en">K</em></b>
+        <p data-i18n="stat4">متابع يتابعون طعم الشامية على وسائل التواصل</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container c-inner">
+    <svg class="rose" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke="#E7D5A8" stroke-width="1.2">
+        <circle cx="30" cy="30" r="17"/>
+        <path d="M30 15 C22 21, 22 28, 30 33 C38 28, 38 21, 30 15 Z"/>
+        <path d="M15 30 C21 22, 28 22, 30 30 C28 38, 21 38, 15 30 Z"/>
+        <path d="M45 30 C39 22, 32 22, 30 30 C32 38, 39 38, 45 30 Z"/>
+      </g>
+    </svg>
+    <h2 data-reveal data-i18n="contactTitle">جاهزون نضيف الحلو إلى مناسبتكم؟</h2>
+    <p class="lead" data-reveal data-i18n="contactLead">زورونا في فرعنا بدمشق، خلف قيادة الشرطة، أو راسلونا لنطّلعكم على تشكيلة اليوم ونجهّز طلبكم بأسرع وقت.</p>
+
+    <div class="contact-card" data-reveal>
+      <div class="brand-line" data-i18n="contactBrand">الشامية — Al Shamieh</div>
+      <div class="line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span data-i18n="contactAddr">دمشق، خلف قيادة الشرطة</span>
+      </div>
+      <div class="line en">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+        <span>011 - 6033</span>
+      </div>
+      <div class="line en">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+        <span>@alshamiehdelights</span>
+      </div>
+    </div>
+
+    <div class="contact-actions" data-reveal>
+      <a class="btn btn-gold" href="tel:6033011" data-i18n="contactCall">اتصل الآن</a>
+      <a class="btn btn-ghost" href="https://www.instagram.com/alshamiehdelights/" target="_blank" rel="noopener" data-i18n="contactIg">افتح إنستغرام</a>
+      <button class="btn btn-ghost" data-open-modal data-i18n="contactMsg">راسلنا للطلب</button>
+    </div>
+    <div class="closing-phrase en">The Original Taste of the Levant</div>
+  </div>
+
+  <div class="container">
+    <footer class="site-footer">
+      <span>© <span id="year">2026</span> <span data-i18n="footerCopy">الشامية — حلويات ومأكولات شامية. جميع الحقوق محفوظة.</span></span>
+      <button class="to-top" id="toTop">
+        <span data-i18n="toTop">العودة للأعلى</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </footer>
+  </div>
+</section>
+
+<!-- ============ ORDER MODAL ============ -->
+<div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-label="طلب من الشامية" data-i18n="modalAria" data-i18n-attr="aria-label">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h3 data-i18n="modalTitle">اطلب من الشامية</h3>
+        <p data-i18n="modalLead">عبّئ المعلومات وسنتواصل معكم لتأكيد الطلب وأقرب موعد للتوصيل.</p>
+      </div>
+      <button class="modal-x" id="modalClose" aria-label="إغلاق">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="orderForm" novalidate>
+        <div class="field">
+          <label for="fName" data-i18n="fName">الاسم</label>
+          <input id="fName" name="name" type="text" placeholder="اكتب اسمك" required data-i18n="fNamePh" data-i18n-attr="placeholder">
+        </div>
+        <div class="field">
+          <label for="fPhone" data-i18n="fPhone">رقم الهاتف</label>
+          <input id="fPhone" name="phone" type="tel" placeholder="09xx xxx xxx" required>
+        </div>
+        <div class="field">
+          <label for="fNotes" data-i18n="fNotes">نوع الطلب أو ملاحظات <small style="opacity:.55;font-weight:400">(اختياري)</small></label>
+          <textarea id="fNotes" name="notes" rows="3" placeholder="مثال: صينية منسف رز بلحم لستة أشخاص" data-i18n="fNotesPh" data-i18n-attr="placeholder"></textarea>
+        </div>
+        <button class="btn btn-gold" type="submit" data-i18n="fSubmit">إرسال الطلب</button>
+        <p class="form-err" id="formErr" data-i18n="formErr">الرجاء تعبئة الاسم ورقم الهاتف بشكل صحيح.</p>
+      </form>
+
+      <div class="modal-success" id="modalSuccess">
+        <div class="ok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3 data-i18n="okTitle">شكراً لثقتكم!</h3>
+        <p data-i18n="okText">تم استلام طلبكم، وسيتواصل معكم فريق الشامية بعد قليل لتأكيد التفاصيل.</p>
+        <button class="btn btn-dark" id="modalDone" data-i18n="okDone">حسناً، شكراً</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="assets/i18n.js"></script>
+<script type="module" src="assets/motion.js"></script>
+<script>
+(function(){
+  "use strict";
+  var doc = document;
+
+  /* ---------- Header: hide/show ---------- */
+  var header = doc.getElementById('siteHeader');
+  var lastY = window.scrollY;
+  function onScroll(){
+    var y = window.scrollY;
+    if(y > 160 && y > lastY){ header.classList.add('hidden'); }
+    else { header.classList.remove('hidden'); }
+    lastY = y;
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------- Mobile nav ---------- */
+  var burger = doc.getElementById('burger');
+  var nav = doc.getElementById('siteNav');
+  function closeNav(){ nav.classList.remove('open'); burger.classList.remove('x'); burger.setAttribute('aria-expanded','false'); }
+  burger.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    burger.classList.toggle('x', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
+
+  /* ---------- Header theme (light/dark sections) ---------- */
+  var lightSections = ['stats'];
+  var themeObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        if(lightSections.indexOf(en.target.id) !== -1) header.classList.add('light');
+        else header.classList.remove('light');
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  ['home','cats','stats','contact'].forEach(function(id){
+    var t = doc.getElementById(id);
+    if(t) themeObserver.observe(t);
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        revealObserver.unobserve(en.target);
+      }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+  doc.querySelectorAll('[data-reveal]').forEach(function(el){ revealObserver.observe(el); });
+
+  /* ---------- Counter ---------- */
+  function runCounter(el){
+    var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = target; return; }
+    var dur = 1500, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counters = doc.querySelectorAll('.count');
+  var counterObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ runCounter(en.target); counterObserver.unobserve(en.target); }
+    });
+  }, {threshold:.6});
+  counters.forEach(function(c){ counterObserver.observe(c); });
+
+  /* ---------- Marquee: duplicate the static set for a seamless loop ---------- */
+  var mqTrack = doc.getElementById('mqTrack');
+  if(mqTrack) mqTrack.innerHTML += mqTrack.innerHTML + mqTrack.innerHTML;
+
+  /* ---------- Modal ---------- */
+  var modal = doc.getElementById('orderModal');
+  var form = doc.getElementById('orderForm');
+  var successEl = doc.getElementById('modalSuccess');
+  var formErr = doc.getElementById('formErr');
+  function clearBodyOverflow(){ if(!modal.classList.contains('open')) doc.body.style.overflow = ''; }
+  function openModal(){ modal.classList.add('open'); doc.body.style.overflow = 'hidden'; }
+  function closeModal(){
+    modal.classList.remove('open');
+    clearBodyOverflow();
+    setTimeout(function(){ form.style.display = ''; successEl.style.display = 'none'; formErr.style.display = 'none'; }, 300);
+  }
+  doc.querySelectorAll('[data-open-modal]').forEach(function(b){ b.addEventListener('click', openModal); });
+  doc.getElementById('modalClose').addEventListener('click', closeModal);
+  doc.getElementById('modalDone').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+
+  /* ---------- Form ---------- */
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = doc.getElementById('fName');
+    var phone = doc.getElementById('fPhone');
+    var okName = name.value.trim().length >= 2;
+    var okPhone = /^[0-9+\-\s\u06F0-\u06F9]{7,20}$/.test(phone.value.trim());
+    if(!okName || !okPhone){
+      formErr.style.display = 'block';
+      var first = !okName ? name : phone;
+      first.focus();
+      return;
+    }
+    form.style.display = 'none';
+    formErr.style.display = 'none';
+    successEl.style.display = 'block';
+  });
+
+  /* ---------- Keys ---------- */
+  doc.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      closeNav();
+      if(modal.classList.contains('open')) closeModal();
+    }
+  });
+
+  /* ---------- Back to top & year ---------- */
+  doc.getElementById('toTop').addEventListener('click', function(){
+    doc.getElementById('home').scrollIntoView({behavior:'smooth'});
+  });
+  var y = doc.getElementById('year');
+  if(y) y.textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
