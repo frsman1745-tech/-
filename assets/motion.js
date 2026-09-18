@@ -82,19 +82,39 @@ function startHero(){
 }
 
 function startReveals(){
-  const items = gsap.utils.toArray('[data-reveal]');
-  if(!items.length) return;
-  ScrollTrigger.batch(items, {
-    start:'top 86%',
-    once:true,
-    onEnter(batch){
-      gsap.to(batch, {
-        opacity:1, x:0, y:0,
-        duration:.9, stagger:.12,
-        ease:'power3.out', overwrite:true
-      });
-      batch.forEach(function(el){ el.classList.add('in'); });
-    }
+  const cards = gsap.utils.toArray('.cat-card');
+  const rest = gsap.utils.toArray('[data-reveal]').filter(function(el){
+    return !el.classList.contains('cat-card');
+  });
+  if(!cards.length && !rest.length) return;
+
+  function batchReveal(items, from){
+    if(!items.length) return;
+    ScrollTrigger.batch(items, {
+      start:'top 90%',
+      once:true,
+      onEnter(group){
+        gsap.set(group, from);
+        gsap.to(group, {
+          x:0, y:0, opacity:1,
+          duration:.85, stagger:.13,
+          ease:'power3.out', overwrite:true
+        });
+        group.forEach(function(el){ el.classList.add('in'); });
+      }
+    });
+  }
+
+  const mm = gsap.matchMedia();
+  /* Mobile/tablet: cards glide in from the LEFT as you keep scrolling */
+  mm.add('(max-width: 768px)', function(){
+    batchReveal(cards, { x:-38, y:0, opacity:0 });
+    batchReveal(rest, { x:0, y:22, opacity:0 });
+  });
+  /* Desktop: gentle rise from below */
+  mm.add('(min-width: 769px)', function(){
+    batchReveal(cards, { x:0, y:34, opacity:0 });
+    batchReveal(rest, { x:0, y:30, opacity:0 });
   });
 }
 
@@ -112,9 +132,21 @@ function startComing(){
 
 /* ---------- Sweets: scroll-scrub "video" from image frames ---------- */
 const scrubFrames = 169;
-const scrubBase = 'imag 2/ezgif-frame-';
+const scrubBase = 'imag 2/opt/ezgif-frame-';
+const scrubExt = '.webp';
 const scrubPad = function(n){ return String(n).padStart(3, '0'); };
-const scrubSrc = function(i){ return scrubBase + scrubPad(i) + '.jpg'; };
+const scrubSrc = function(i){ return scrubBase + scrubPad(i) + scrubExt; };
+
+/* تقرير تقدم التحميل — يغذّي شاشة البداية (preloader) إن وُجدت */
+const preloadProgress = {
+  loaded: 0,
+  total: 0
+};
+function preloadReport(loaded, total){
+  if(window.__preloadTick) window.__preloadTick(loaded, total);
+}
+
+const eager = 30;
 
 function settleScrub(){
   const hero = doc.getElementById('sweetsHero');
@@ -124,6 +156,7 @@ function settleScrub(){
   hero.classList.add('scrub-static');
   img.src = scrubSrc(scrubFrames);
   if(count) count.textContent = scrubPad(scrubFrames);
+  if(window.__preloadDone) window.__preloadDone();
 }
 
 function startScrub(){
@@ -135,12 +168,36 @@ function startScrub(){
   const hint = doc.getElementById('scrubHint');
   if(!img) return;
 
-  const preloaded = new Set();
-  function preload(i){
-    if(i < 1 || i > scrubFrames || preloaded.has(i)) return;
-    preloaded.add(i);
+  const cache = {};
+  const hits = {};
+  function fetch(i){
+    if(cache[i]) return cache[i];
+    if(hits[i] === undefined) hits[i] = 0;
+    hits[i]++;
     const im = new Image();
+    im.decoding = 'async';
     im.src = scrubSrc(i);
+    const p = new Promise(function(res){
+      im.onload = function(){
+        cache[i] = im;
+        preloadProgress.loaded++;
+        preloadReport(preloadProgress.loaded, Math.max(scrubFrames, preloadProgress.total));
+        res();
+      };
+      im.onerror = res;
+    });
+    cache[i] = p;
+    return p;
+  }
+
+  const loaded = new Set();
+  function pre(r){
+    for(let k = r; k >= 1 && k >= r - 1; k--) preload(k);
+  }
+  function preload(i){
+    if(i < 1 || i > scrubFrames || loaded.has(i)) return;
+    loaded.add(i);
+    fetch(i);
   }
 
   let current = 1;
@@ -153,16 +210,24 @@ function startScrub(){
 
   hero.style.height = 'calc(100svh + ' + ((scrubFrames - 1) * 2.15).toFixed(2) + 'vh)';
 
-  for(let k = 1; k <= 3; k++) preload(k);
+  /* تحميل أول 30 فريم على الفور (لتغذية البريلودر + بداية انسيابية) */
+  preloadReport(0, eager);
+  let eLoaded = 0;
+  for(let k = 1; k <= eager; k++){
+    fetch(k).then(function(){
+      eLoaded++;
+      preloadReport(eLoaded, eager);
+    });
+  }
 
-  gsap.fromTo(img, { scale:1.14 }, {
-    scale:1.02,
-    ease:'none',
-    scrollTrigger:{
+  gsap.fromTo(img, { scale: 1.14 }, {
+    scale: 1.02,
+    ease: 'none',
+    scrollTrigger: {
       trigger: hero,
-      start:'top top',
-      end:'bottom bottom',
-      scrub:.35,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.35,
       onUpdate(self){
         const idx = 1 + Math.round(self.progress * (scrubFrames - 1));
         show(idx);
@@ -177,6 +242,18 @@ function startScrub(){
       }
     }
   });
+
+  if(!reduce){
+    /* انتهاء الشاشة الأولى = نضج التحميل المسبق */
+    const markDone = function(){
+      if(window.__preloadDone && !preloadProgress.done){
+        preloadProgress.done = true;
+        window.__preloadDone();
+      }
+    };
+    Promise.all(Array.from({ length: eager }, (_, k) => fetch(k + 1))).then(markDone);
+    window.addEventListener('load', markDone);
+  }
 
   const copy = hero.querySelector('.scrub-copy');
   const chip = hero.querySelector('.scrub-chip');
