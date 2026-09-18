@@ -114,15 +114,15 @@
 <!-- ============ MARQUEE ============ -->
 <div class="marquee" aria-label="أصناف الشامية" data-i18n="marqueeAria" data-i18n-attr="aria-label">
   <div class="marquee-track" id="mqTrack">
-    <img class="mq" src="assets/image_01.jpg" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_02.png" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_03.png" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_04.png" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_05.webp" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_06.webp" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_07.webp" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_08.png" alt="" aria-hidden="true" loading="lazy">
-    <img class="mq" src="assets/image_09.webp" alt="" aria-hidden="true" loading="lazy">
+    <img class="mq" src="assets/image_01.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_02.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_03.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_04.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_05.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_06.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_07.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_08.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_09.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
   </div>
 </div>
 
@@ -385,9 +385,57 @@
   }, {threshold:.6});
   counters.forEach(function(c){ counterObserver.observe(c); });
 
-  /* ---------- Marquee: duplicate the static set for a seamless loop ---------- */
+  /* ---------- Marquee: نُكرّر المجموعة مرة واحدة بالضبط ليصير الشريط حلقة سلسة
+     (نسختان متطابقتان + translate إلى -50% = عودة لا تُرى) ---------- */
   var mqTrack = doc.getElementById('mqTrack');
-  if(mqTrack) mqTrack.innerHTML += mqTrack.innerHTML + mqTrack.innerHTML;
+  if(mqTrack) mqTrack.innerHTML += mqTrack.innerHTML;
+
+  /* ---------- شاشة التحميل — مِحرّك يتطابق مع سلوك site.js في بقية الصفحات ---------- */
+  var boot = doc.getElementById('boot');
+  if(boot){
+    var bootPct = doc.getElementById('bootPct');
+    var bootBar = doc.getElementById('bootBar');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var minShow = reduce ? 150 : 900;   /* أقل مدة ظاهرة قبل الاختفاء */
+    var maxShow = 5000;                 /* سقف أمان */
+    var bootStart = Date.now();
+    var shown = 0;
+    var realDone = false;
+    var t1 = null, t2 = null;
+    function paint(p){
+      shown = Math.max(shown, Math.min(100, Math.round(p)));
+      if(bootPct) bootPct.textContent = shown;
+      if(bootBar) bootBar.style.width = shown + '%';
+    }
+    function fade(){
+      boot.classList.add('done');
+      setTimeout(function(){ boot.remove(); doc.body.classList.remove('no-scroll'); }, reduce ? 0 : 900);
+    }
+    function settle(){
+      var wait = Math.max(0, minShow - (Date.now() - bootStart));
+      clearTimeout(t2);
+      t2 = setTimeout(function(){
+        fade();
+        if(window.__preloadDone) window.__preloadDone();
+      }, wait);
+    }
+    function anim(){
+      var p = shown;
+      if(p < 34) paint(p + 2);
+      else if(p < 60) paint(p + 1);
+      else settle();                     /* ننتظر الـ load أو الخطافات */
+      if(shown < 60 && !realDone) t1 = setTimeout(anim, reduce ? 200 : 240);
+    }
+    window.addEventListener('load', function(){
+      paint(88);
+      setTimeout(settle, reduce ? 0 : 250);
+    });
+    setTimeout(function(){ if(shown < 100) fade(); }, maxShow); /* طوارئ */
+
+    doc.body.classList.add('no-scroll');
+    paint(3);
+    t1 = setTimeout(anim, 120);
+  }
 
   /* ---------- Modal ---------- */
   var modal = doc.getElementById('orderModal');

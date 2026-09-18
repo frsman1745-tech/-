@@ -303,7 +303,14 @@
     background:linear-gradient(90deg,var(--gold-deep),var(--gold) 45%,var(--gold-soft) 100%);
     overflow:hidden;padding:14px 0;position:relative;z-index:3;direction:ltr;
   }
-  .marquee-track{display:flex;width:max-content;will-change:transform;animation:marquee 34s linear infinite;}
+  [dir="rtl"] .marquee{direction:rtl;}
+  .marquee-track{
+    display:flex;width:max-content;will-change:transform;
+    contain:layout paint style;
+    animation:marquee 34s linear infinite;
+  }
+  /* في العربية نعكس اتجاه الحركة لتعود لليمين مع بقاء الحلقة سلسة */
+  [dir="rtl"] .marquee-track{animation-direction:reverse;}
   .marquee:hover .marquee-track{animation-play-state:paused;}
   .mq{
     flex:none;width:64px;height:64px;border-radius:50%;object-fit:cover;
@@ -313,7 +320,7 @@
     transition:transform .35s var(--ease);
   }
   .marquee:hover .mq{transform:scale(1.08);}
-  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes marquee{from{transform:translate3d(0,0,0);}to{transform:translate3d(-50%,0,0);}}
 
   /* ============ Stats ============ */
   .stats{
