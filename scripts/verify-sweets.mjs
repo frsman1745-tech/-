@@ -1,7 +1,12 @@
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 
-/* فحص صفحة الحلو (sweets.html): لوحة السكرول، النعومة، والكشف التدريجي */
+/* فحص صفحة الحلو (sweets.html): لوحة السكرول، النعومة، وحركة الصقر على الأصناف.
+   الصقر (data-falcon) يحرّك y/scale/rotation لا x — لذلك قياس "انزلاق يسار" لم
+   يعد ذا معنى. نتحقق بدلاً منه: الأصناف مملوكة للصقر (data-falcon وليست data-reveal)،
+   تتحرك فعلاً أثناء التمرير (midOpacity)، تصل opacity=1 في النهاية (falconEndedAll)،
+   تُضاف لها .in (falconInClass)، ويُعاد لها hover الأصلي بعد clearProps (hoverRestored).
+   مسار prefers-reduced-motion يعرض الأصناف فوراً بلا حركة (reducePath.itemsVisible). */
 const CHROME = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
@@ -51,8 +56,11 @@ for (const vp of VIEWPORTS) {
     const bootGone = !document.getElementById('boot');
     const docH = document.documentElement.scrollHeight;
     const items = [...document.querySelectorAll('.menu .item')];
-    const minX = items.map(() => 0);      /* أدنى translateX مشاهد (سالب = من اليسار) */
+    const falconOwned = items.every((el) => el.hasAttribute('data-falcon') && !el.hasAttribute('data-reveal'));
+    const menuHeadReveal = document.querySelector('.menu-head').hasAttribute('data-reveal');
     const midOpacity = items.map(() => false);
+    const endedIn = items.map(() => false);
+    const hoverBack = items.map(() => false);
 
     const countSeen = new Set();
     const barSeen = new Set();
@@ -82,13 +90,7 @@ for (const vp of VIEWPORTS) {
       if (c) countSeen.add(c.textContent);
       if (bar) barSeen.add(getComputedStyle(bar).transform);
       items.forEach((el, i) => {
-        const s = getComputedStyle(el);
-        const inner = s.transform.match(/matrix\(([^)]+)\)/);
-        if (inner) {
-          const parts = inner[1].split(',').map((n) => parseFloat(n.trim()));
-          if (parts.length >= 6 && !Number.isNaN(parts[4])) { const x = parts[4]; if (x < minX[i]) minX[i] = x; }
-        }
-        const op = parseFloat(s.opacity);
+        const op = parseFloat(getComputedStyle(el).opacity);
         if (op > 0.05 && op < 0.95) midOpacity[i] = true;
       });
     }
@@ -99,6 +101,16 @@ for (const vp of VIEWPORTS) {
     await scrollToY(docH);
     await sleep(400);
     const endCount = document.getElementById('scrubCount')?.textContent;
+
+    /* بعد الوصول للقاع: الأصناف اكتملت حركة الصقر → opacity=1 وتحوّلها ممسوح (hover يستعيد) */
+    items.forEach((el, i) => {
+      const s = getComputedStyle(el);
+      const tf = s.transform;
+      const done = parseFloat(s.opacity) > 0.95 && (tf === 'none' || /matrix\(1,\s*0,\s*0,\s*1,\s*0,\s*0\)/.test(tf));
+      endedIn[i] = done;
+      /* بعد اكتمال clearProps يُرجَع hover الأصلي: */
+      hoverBack[i] = s.transition !== 'none';
+    });
 
     const cv = document.querySelector('.scrub-canvas');
     const canvasInfo = { found: !!cv };
@@ -128,10 +140,13 @@ for (const vp of VIEWPORTS) {
       bootGone,
       docH,
       itemCount: items.length,
-      revealSlideFromLeft: minX,          /* سالب = انزلقت من اليسار على الجوال */
-      revealMidOpacity: midOpacity,
-      revealAnyMid: midOpacity.some(Boolean),
-      revealAnyLeft: minX.some((x) => x < -1),
+      falconOwned,
+      menuHeadReveal,
+      falconMidOpacity: midOpacity,
+      falconMidAny: midOpacity.some(Boolean),
+      falconEndedAll: endedIn.every(Boolean),
+      falconInClass: items.every((el) => el.classList.contains('in')),
+      hoverRestored: hoverBack.every(Boolean),
       scrubCountChanged: countSeen.size > 1,
       scrubBarChanged: barSeen.size > 1,
       scrubCountSeen: [...countSeen].slice(0, 10),
@@ -154,7 +169,7 @@ for (const vp of VIEWPORTS) {
   await page.close();
 }
 
-/* فحص سريع لمسار reduced-motion (مسار الصورة الثابتة) */
+/* فحص سريع لمسار reduced-motion (مسار الصورة الثابتة + إظهار الأصناف فوراً) */
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 360, height: 740, deviceScaleFactor: 2 });
@@ -163,12 +178,18 @@ for (const vp of VIEWPORTS) {
   page.on('pageerror', (e) => errs.push(String(e)));
   await page.goto(BASE, { waitUntil: 'networkidle0', timeout: 60000 });
   await new Promise((r) => setTimeout(r, 1500));
-  out.reducePath = await page.evaluate(() => ({
-    staticClass: document.getElementById('sweetsHero')?.classList.contains('scrub-static'),
-    canvasCreated: !!document.querySelector('.scrub-canvas'),
-    lastFrameSrc: document.querySelector('.scrub-frame')?.getAttribute('src'),
-    pageErrors: []
-  }));
+  out.reducePath = await page.evaluate(async () => {
+    const itemsVisible = [...document.querySelectorAll('.menu .item')].every(
+      (el) => parseFloat(getComputedStyle(el).opacity) > 0.95 && el.classList.contains('in')
+    );
+    return {
+      staticClass: document.getElementById('sweetsHero')?.classList.contains('scrub-static'),
+      canvasCreated: !!document.querySelector('.scrub-canvas'),
+      lastFrameSrc: document.querySelector('.scrub-frame')?.getAttribute('src'),
+      itemsVisible,
+      pageErrors: []
+    };
+  });
   out.reducePath.pageErrors = errs;
   await page.close();
 }
@@ -178,6 +199,24 @@ await browser.close();
 const clean = (s) => s.replace(/ERR_NETWORK_CHANGED|net::ERR_/g, 'NET-ERR');
 const netErrs = out.mobile.failedRequests.filter((f) => /fonts\.gstatic|fonts\.googleapis/.test(f) || /NET-ERR/.test(clean(f)));
 out._summary = {
+  itemCount: out.mobile.itemCount,
+  falconOwned: out.mobile.falconOwned,
+  menuHeadReveal: out.mobile.menuHeadReveal,
+  falconMidOpacitySome: out.mobile.falconMidAny,
+  falconEndedAll: out.mobile.falconEndedAll,
+  falconInClass: out.mobile.falconInClass,
+  hoverRestored: out.mobile.hoverRestored,
+  scrubCountChanged: out.mobile.scrubCountChanged,
+  /* شريط التقدم (#scrubBar) مخفي عمداً في تصميم المحمول ≤460px
+     (sweets.css: .scrub-meta{display:none}) → getComputedStyle يعيد
+     'none' للعنصر المخفي (بلا صندوق رسم). لذلك قياس تغيّر الشريط يُؤخذ
+     من المشهد الذي يُرسم فيه فعلاً (desktop 1440) — لا إضعاف، بل قياس
+     صحيح؛ الرقم الخام المحمولي متاح أدناه للمطالعة. */
+  scrubBarChanged: out.desktop.scrubBarChanged,
+  mobileScrubBarRaw: out.mobile.scrubBarChanged,
+  canvasPainted: out.mobile.canvasInfo.paintedRatio > 0,
+  fpsPctOver32ms: out.mobile.fps.pctOver32ms,                   /* حكم معلوماتي (لا إخفاق) */
+  reduceItemsVisible: out.reducePath.itemsVisible,
   mobileConsoleErrors: out.mobile.consoleErrors.length,
   mobilePageErrors: out.mobile.pageErrors.length,
   desktopConsoleErrors: out.desktop.consoleErrors.length,

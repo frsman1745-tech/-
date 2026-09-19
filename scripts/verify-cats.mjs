@@ -1,8 +1,13 @@
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 
-/* فحص قائمة الشامية (index.html #cats): شبكة بطاقات كلاسيكية، بلا سكرول ظاهر/طويل،
-   الشبكة تنزاح لليسار مع التمرير والبطاقات تدخل من اليمين أثناء مرور القسم. */
+/* فحص قائمة الشامية (index.html #cats): شبكة صف واحد دائماً (repeat(6,...))؛
+   تحت 1080 يمرَّر الصف أفقياً بلمسة داخل .cats-grid نفسه (سكرول مخفي:
+   scrollbar-width:none + -webkit-scrollbar{display:none}، مع scroll-snap
+   وoverscroll-behavior-x:contain) بلا أي انجراف أفقي للشبكة؛
+   على/فوق 1080 ست أعمدة متساوية بلا تمرير أفقي، والبطاقات تدخل من اليمين
+   مع التمرير (once لكل بطاقة). على الديسكتوب فقط تنزاح الشبكة ككل يساراً
+   مع التمرير (drift -2% ≈ -25px على حاوية ~1280)، وتحت 1080 لا انجراف إطلاقاً. */
 const CHROME = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
@@ -65,7 +70,11 @@ for (const vp of VIEWPORTS) {
       catsTop: Math.round(top),
       overflowX: getComputedStyle(document.documentElement).overflowX,
       overflowY: getComputedStyle(document.documentElement).overflowY,
-      cols: getComputedStyle(grid).gridTemplateColumns.split(' ').length
+      cols: getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+      tops: cards.map((c) => Math.round(c.getBoundingClientRect().top)),
+      gridRows: getComputedStyle(grid).gridTemplateRows.split(' ').filter(Boolean).length,
+      scrollable: grid.scrollWidth - grid.clientWidth > 1,
+      scrollbarWidth: getComputedStyle(grid).scrollbarWidth
     };
 
     /* مسح القسم: عينة x للشبكة + حالة أول بطاقة (دخول من اليمين) + آخر بطاقة */
@@ -95,8 +104,6 @@ for (const vp of VIEWPORTS) {
     await scrollToY(top + to);
     await sleep(300);
 
-    const finalFirst = readFinal(cards[0]);
-    const finalLast = readFinal(cards[cards.length - 1]);
     function readFinal(card) {
       const t = getComputedStyle(card).transform;
       const mm = t.match(/matrix\(([^)]+)\)/);
@@ -104,6 +111,21 @@ for (const vp of VIEWPORTS) {
         tx: mm ? Math.round(parseFloat(mm[1].split(',')[4]) * 10) / 10 : 0,
         op: Math.round(parseFloat(getComputedStyle(card).opacity) * 100) / 100
       };
+    }
+    const finalFirst = readFinal(cards[0]);
+    const finalLast = readFinal(cards[cards.length - 1]);
+
+    /* فحص الـ swipe الجوال (<1080): الصف يمرَّر أفقياً فعلاً داخل .cats-grid */
+    let swiped = false, delta = 0;
+    if (cfg.width < 1080) {
+      const s0 = grid.scrollLeft;
+      const offsets = [-240, 240];
+      for (const o of offsets) {
+        grid.scrollBy({ left: o, behavior: 'instant' });
+        await sleep(140);
+        delta = grid.scrollLeft - s0;
+        if (Math.abs(delta) > 5) { swiped = true; break; }
+      }
     }
 
     return {
@@ -113,6 +135,8 @@ for (const vp of VIEWPORTS) {
       lastSlide,
       finalFirst,
       finalLast,
+      swiped,
+      scrollDelta: delta,
       imgsLoaded: cards.map((c) => Math.round(c.querySelector('img')?.naturalWidth || 0)),
       linksOk: cards.map((c) => !!c.getAttribute('href'))
     };
@@ -126,23 +150,39 @@ await browser.close();
 
 for (const name of ['mobile', 'tablet', 'desktop']) {
   const r = out[name];
+  const isDesktop = name === 'desktop';
   const drift = r.gridX.filter((x) => x < -3).length;
+  const driftHard = r.gridX.filter((x) => x < -4).length;
   const driftMin = Math.min(...r.gridX);
   const firstWasHidden = r.firstSlide.some((s) => s.op < 0.15 && s.tx >= 60);
   const firstEndsIn = r.finalFirst.op > 0.95 && Math.abs(r.finalFirst.tx) <= 4;
   const lastEndsIn = r.finalLast.op > 0.95 && Math.abs(r.finalLast.tx) <= 4;
   const firstProgressive = r.firstSlide.some((s) => s.op > 0.2 && s.op < 0.9);
-  r._check = {
+
+  const common = {
     normalLayout: !r.struct.scrubClass && !r.struct.staticClass && !r.struct.hasLegacy,
     noInflatedHeight: r.struct.catsHeightPx > 60 && r.struct.catsHeightPx < 4000,
     sixCards: r.struct.cardsCount === 6,
-    gridDriftsLeft: drift >= 3 && r.gridX[0] >= -1 && driftMin <= -8,
+    sixColumns: r.struct.cols === 6,
+    singleRow: new Set(r.struct.tops).size === 1,                       /* كل المشاهدات */
     cardsSlideInFromRight: firstWasHidden && firstEndsIn && firstProgressive,
     lastCardAlsoVisible: lastEndsIn,
     imagesLoaded: r.imgsLoaded.every((w) => w > 0),
     linksOk: r.linksOk.every(Boolean),
     noConsoleErrors: r.consoleErrors.length === 0 && r.pageErrors.length === 0
   };
+
+  r._check = isDesktop
+    ? Object.assign({}, common, {
+        desktopNoHScroll: r.struct.scrollable === false,                /* ≥1080 غير ممرَّر */
+        gridDriftsLeft: drift >= 2 && r.gridX[0] >= -1 && driftMin <= -12 /* ديسكتوب فقط */
+      })
+    : Object.assign({}, common, {
+        mobileSwipable: r.struct.scrollable === true,                   /* <1080 ممرَّر أفقياً */
+        mobileNoScrollbar: r.struct.scrollbarWidth === 'none',           /* <1080 */
+        mobileSwipeWorks_: r.swiped === true,                            /* <1080 */
+        gridNoDriftMobile: driftHard === 0 && Math.abs(r.gridX[0]) <= 2 && Math.min(...r.gridX) >= -4
+      });
 }
 
 console.log(JSON.stringify(out, null, 1));

@@ -141,7 +141,7 @@ async function scrollFullPage(page) {
 async function hiddenAfterScroll(page) {
   return page.evaluate(() => {
     const stuck = [];
-    for (const el of document.querySelectorAll('[data-reveal], .cat-card')) {
+    for (const el of document.querySelectorAll('[data-reveal], [data-falcon], .cat-card')) {
       const s = getComputedStyle(el);
       if (parseFloat(s.opacity) < 0.9) {
         stuck.push(el.className || el.tagName.toLowerCase());

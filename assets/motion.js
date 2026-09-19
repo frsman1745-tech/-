@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import { initFalcon } from './falcon.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,37 +90,48 @@ function startReveals(){
   const items = gsap.utils.toArray('[data-reveal]');
   if(!items.length) return;
 
-  function batchReveal(group, from){
-    if(!group.length) return;
-    ScrollTrigger.batch(group, {
-      start:'top 90%',
-      once:true,
-      onEnter(items){
-        gsap.set(items, from);
-        gsap.to(items, {
-          x:0, y:0, opacity:1,
-          duration:.85, stagger:.13,
-          ease:'power3.out', overwrite:true
-        });
-        items.forEach(function(el){ el.classList.add('in'); });
-      }
+  /* موضع بدء بموضع الشاشة المطلوب (frac من ارتفاع الشاشة) لكنه "مشبوك" بآخر بكسل
+     قابل للتمرير: لو تجاوز start الحد الأقصى (عنصر أخير قرب قاع الصفحة على
+     شاشة طويلة — start > maxScroll) فلن يشتغل once:true أبداً ويبقى مخفياً؛
+     يشبك إلى آخر بكسل ليكشف العنصر حتماً عند أسفل الصفحة. */
+  function clampStart(el, frac){
+    return function(){
+      const vh = window.innerHeight || doc.documentElement.clientHeight;
+      const docTop = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+      const maxScroll = Math.max(0, doc.documentElement.scrollHeight - vh);
+      return Math.round(Math.min(docTop - vh * frac, maxScroll - 2));
+    };
+  }
+
+  function bindReveal(el, i, from, start, stagger){
+    return gsap.fromTo(el, from, {
+      x:0, y:0, opacity:1,
+      duration:.85, ease:'power3.out', overwrite:'auto',
+      delay:(i % 3) * stagger,
+      scrollTrigger:{ trigger:el, start:start, once:true, invalidateOnRefresh:true },
+      onComplete:function(){ el.classList.add('in'); }
     });
   }
 
   const mm = gsap.matchMedia();
-  /* Mobile/tablet: كل العناصر [data-reveal] تنزلق من اليسار مع استمرار التمرير */
+
+  /* موبايل/تابلت: انزلاق يساري خفيف، موضع أضيق (top 75%) — لا rush-out */
   mm.add('(max-width: 768px)', function(){
-    batchReveal(items, { x:-36, y:0, opacity:0 });
+    const tweens = items.map(function(el, i){ return bindReveal(el, i, { x:-36, y:0, opacity:0 }, clampStart(el, 0.75), 0); });
+    return function(){ tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); }); };
   });
-  /* Desktop: نهوض ناعم من الأسفل */
+
+  /* ديسكتوب: نهوض من الأسفل، موضع أضيق (top 85%) + stagger خفيف للمتجاورين فقط */
   mm.add('(min-width: 769px)', function(){
-    batchReveal(items, { x:0, y:32, opacity:0 });
+    const tweens = items.map(function(el, i){ return bindReveal(el, i, { x:0, y:32, opacity:0 }, clampStart(el, 0.85), 0.05); });
+    return function(){ tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); }); };
   });
 }
 
-/* ---------- Home: قائمة الشامية — الشبكة تنزاح لليسار والبطاقات تدخل من اليمين مع التمرير ----------
-   لا نضيف أي si-scrollbar ظاهر ولا طول سكرول إضافي: القسم يمر مع صفحة عادية،
-   والحركة مرتبطة بمروره عبر الشاشة فقط (scrub بلا ثبات/لصق). */
+/* ---------- Home: قائمة الشامية — صف واحد دائماً، بطاقات تدخل من اليمين مع التمرير،
+   انجراف يساري خفيف للشبكة على الديسكتوب فقط (≥1080)؛
+   على الأقل من 1080 يمرّر الصف أفقياً بلمسة (بلا أي سكرول بار مرئي) فلا انجراف.
+   لا نضيف أي طول سكرول إضافي: القسم يمر مع الصفحة، والحركة once عند وصول المقطع. ---------- */
 function startCats(){
   const sec = doc.getElementById('cats');
   if(!sec) return;
@@ -131,34 +143,40 @@ function startCats(){
     return;
   }
 
-  /* الشبكة كلها تنزاح بهدوء إلى اليسار أثناء ظهور القسم واختفائه */
   const grid = sec.querySelector('.cats-grid');
-  if(grid){
-    gsap.fromTo(grid, { x:0 }, {
-      x:'-3.5%', ease:'none',
-      scrollTrigger:{
-        trigger:sec, start:'top bottom', end:'bottom top',
-        scrub:0.4, invalidateOnRefresh:true
-      }
+
+  function bindEntrance(c, i, stagger){
+    return gsap.fromTo(c, { x:92, opacity:0 }, {
+      x:0, opacity:1,
+      duration:.6, delay:(i % 6) * stagger,
+      ease:'power3.out', overwrite:'auto',
+      scrollTrigger:{ trigger:c, start:'top 90%', once:true, invalidateOnRefresh:true },
+      onComplete:function(){ c.classList.add('in'); }
     });
   }
 
-  /* كل بطاقة تنطلق من اليمين وتستقر مكانها بنعومة مع التمرير (إحساس السكراب عالي الـfps) */
-  cards.forEach(function(c){
-    let done = false;
-    gsap.fromTo(c, { x:92, opacity:0 }, {
-      x:0, opacity:1, ease:'none',
-      scrollTrigger:{
-        trigger:c, start:'top 96%', end:'top 42%',
-        scrub:0.9, invalidateOnRefresh:true,
-        onUpdate(self){
-          if(!done && self.progress >= 0.999){
-            done = true;
-            c.classList.add('in');
-          }
-        }
-      }
-    });
+  const mm = gsap.matchMedia();
+
+  /* ديسكتوب (≥1080): 6 أعمدة متساوية + انجراف يساري خفيف للشبكة ككل (~2%) scrubbed */
+  mm.add('(min-width: 1080px)', function(){
+    const tweens = cards.map(function(c, i){ return bindEntrance(c, i, 0.06); });
+    let drift = null;
+    if(grid){
+      drift = gsap.fromTo(grid, { x:0 }, {
+        x:'-2%', ease:'none',
+        scrollTrigger:{ trigger:sec, start:'top bottom', end:'bottom top', scrub:0.4, invalidateOnRefresh:true }
+      });
+    }
+    return function(){
+      tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); });
+      if(drift && drift.scrollTrigger) drift.scrollTrigger.kill();
+    };
+  });
+
+  /* موبايل/تابلت (<1080): صف واحد يمرّر أفقياً — دخول من اليمين بلا انجراف أفقي للشبكة */
+  mm.add('(max-width: 1079px)', function(){
+    const tweens = cards.map(function(c, i){ return bindEntrance(c, i, 0.04); });
+    return function(){ tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); }); };
   });
 }
 
@@ -447,10 +465,12 @@ function init(){
   startHeaderTheme();
   if(reduce){
     startCats();
+    initFalcon();
     revealAll();
     return;
   }
 
+  let falcon = null;
   try{
     root.classList.add('motion');
     startCats();
@@ -458,10 +478,12 @@ function init(){
     startScrollProgress();
     startHero();
     startReveals();
+    falcon = initFalcon();
     startComing();
     startScrub();
   }catch(err){
     root.classList.remove('motion');
+    if(falcon) falcon.reset();
     revealAll();
     return;
   }

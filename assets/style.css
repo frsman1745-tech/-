@@ -26,7 +26,8 @@
     --max:1280px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;}
+  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--navy-deep);}
+  html,body{overscroll-behavior-y:none;}
   body{
     margin:0;
     font-family:'Tajawal',sans-serif;
@@ -596,14 +597,20 @@
   .cat-head p{font-size:14.5px;line-height:2;color:rgba(255,255,255,.62);margin:12px 0 0;max-width:54ch;}
   /* ===== شبكة أقسام الشامية (بطاقات كلاسيكية، تتحرك مع التمرير) ===== */
   .cats-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:32px;
+    display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:18px;
     position:relative;z-index:2;will-change:transform;
+    overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
   }
-  @media (max-width:980px){.cats-grid{grid-template-columns:repeat(2,1fr);gap:26px;}}
-  @media (max-width:540px){.cats-grid{grid-template-columns:1fr;gap:20px;}}
+  .cats-grid::-webkit-scrollbar{display:none;height:0;}
+  @media (min-width:1080px){
+    .cats-grid{grid-template-columns:repeat(6,1fr);overflow-x:visible;}
+    .cat-card{min-height:340px;}
+  }
   .cat-card{
     position:relative;border-radius:20px;overflow:hidden;min-height:400px;
     display:block;background:var(--ink-3);color:var(--ivory);text-decoration:none;
+    scroll-snap-align:center;
   }
   .cat-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
   .cat-card:hover img{transform:scale(1.08);}
