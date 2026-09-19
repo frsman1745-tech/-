@@ -29,6 +29,13 @@ function refresh(){
 function initEdgeSync(){
   const tag = '--section-edge';
   let last = '';
+  const frost = doc.createElement('div');
+  frost.className = 'edge-frost';
+  frost.setAttribute('aria-hidden', 'true');
+  const frostBr = frost.cloneNode(false);
+  frostBr.className = 'edge-frost br';
+  doc.body.appendChild(frost);
+  doc.body.appendChild(frostBr);
   function sample(){
     let color = '';
     const stack = doc.elementsFromPoint(Math.max(1, Math.round(innerWidth / 2)), 2);
@@ -38,7 +45,10 @@ function initEdgeSync(){
     }
     if(color && color !== last){
       last = color;
+      /* نضبط اللون على html وbody مباشرة لموثوقية متصفحات الجوال */
       root.style.setProperty('--edge-live', color);
+      root.style.backgroundColor = color;
+      doc.body.style.backgroundColor = color;
     }
   }
   sample();

@@ -33,7 +33,7 @@
   body{
     margin:0;
     font-family:'Tajawal',sans-serif;
-    background:var(--navy-deep);
+    background:var(--edge-live,var(--navy-deep));
     min-height:100svh;
     color:var(--ink);
     overflow-x:hidden;
@@ -808,6 +808,22 @@
     will-change:transform;pointer-events:none;
   }
   html[dir="rtl"] .scroll-progress{transform-origin:right center;}
+
+  /* إطار ضبابي علوي وسفلي: يعكس لون القسم الظاهر حالياً أمام الزائر بطريقة ناعمة */
+  @media (max-width:1079px){
+    .edge-frost{
+      position:fixed;inset-inline:0;top:0;z-index:5;pointer-events:none;
+      height:calc(env(safe-area-inset-top,0px) + 14px);
+      background:linear-gradient(to bottom, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+      opacity:.92;
+    }
+    .edge-frost.br{
+      top:auto;bottom:0;
+      height:calc(env(safe-area-inset-bottom,0px) + 14px);
+      background:linear-gradient(to top, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
+    }
+  }
 
   /* ==================== شاشة التحميل ==================== */
   .boot{
