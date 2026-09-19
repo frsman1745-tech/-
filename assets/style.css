@@ -667,7 +667,7 @@
     html.motion .cat-head p{display:none;}
     html.motion .cats-grid{
       display:flex;flex-direction:row;flex-wrap:nowrap;
-      width:max-content;height:100svh;gap:0;direction:ltr;
+      width:max-content;height:100svh;gap:8px;direction:ltr;
     }
     html.motion .cats-grid > .cat-card{
       flex:0 0 auto;width:100vw;min-width:100vw;

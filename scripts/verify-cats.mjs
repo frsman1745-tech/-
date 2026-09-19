@@ -63,7 +63,7 @@ for (const vp of VIEWPORTS) {
     const rect = sec.getBoundingClientRect();
     const top = rect.top + window.scrollY;
     const isMobile = cfg.width < 1080;
-    const dist = (cards.length - 1) * cfg.width;
+    const dist = grid.scrollWidth - window.innerWidth;
 
     const struct = {
       motionOn: document.documentElement.classList.contains('motion'),

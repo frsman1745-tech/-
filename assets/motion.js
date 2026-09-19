@@ -174,7 +174,11 @@ function startCats(){
      ينقل البطاقات يساراً، ولا يُمرَّر القسم حتى تُستهلك كل الأصناف وتُعرض */
   const mmMob = gsap.matchMedia();
   mmMob.add('(max-width: 1079px)', function(){
-    const dist = function(){ return Math.max(100, (cards.length - 1) * (window.innerWidth || doc.documentElement.clientWidth)); };
+    /* مسافة الحركة = عرض المسار الكامل ناقص الشاشة (تشمل فجوة 8px بين البطاقات) */
+    const dist = function(){
+      const w = grid.scrollWidth - (window.innerWidth || doc.documentElement.clientWidth);
+      return Math.max(100, w);
+    };
     const tween = gsap.to(grid, {
       x: function(){ return -dist(); },
       ease:'none',
