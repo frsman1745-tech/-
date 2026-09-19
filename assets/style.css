@@ -157,7 +157,16 @@
     min-height:100svh;
     background:
       radial-gradient(120% 90% at 75% 15%, rgba(255,255,255,.10), transparent 60%),
-      linear-gradient(180deg, #1a5e78 0%, #2f83a2 45%, #3f9bb9 100%);
+      linear-gradient(180deg,
+        var(--navy-deep) 0%,
+        #0E2B3C 7%,
+        #164B61 16%,
+        #1a5e78 28%,
+        #2f83a2 52%,
+        #3f9bb9 72%,
+        #20708C 84%,
+        #103A47 93%,
+        var(--navy-deep) 100%);
     color:var(--ivory);
     position:relative;
     overflow:hidden;
@@ -733,7 +742,16 @@
     text-align:center;
     background:
       radial-gradient(120% 90% at 75% 15%, rgba(255,255,255,.10), transparent 60%),
-      linear-gradient(180deg, #1a5e78 0%, #2f83a2 45%, #3f9bb9 100%);
+      linear-gradient(180deg,
+        var(--navy-deep) 0%,
+        #0E2B3C 7%,
+        #164B61 16%,
+        #1a5e78 28%,
+        #2f83a2 52%,
+        #3f9bb9 72%,
+        #20708C 84%,
+        #103A47 93%,
+        var(--navy-deep) 100%);
     color:var(--ivory);padding:120px 5vw 54px;position:relative;
   }
   .page-coming .inner{max-width:600px;}
@@ -812,17 +830,16 @@
   }
   html[dir="rtl"] .scroll-progress{transform-origin:right center;}
 
-  /* زجاج ضبابي فوق الأطراف العليا والسفلى: طبقة شبه شفافة خفيفة الضبابية
-   يشتق مظهرها من ما تحته فعلياً (القسم الظاهر حاليًا) — لا لون ثابت،
-   لا شريط صلب، لا خط فاصل: مجرد لمسة رقيقة تدمج منطقة الأمان مع المحتوى */
-body::before,
-body::after{
-  content:"";position:fixed;inset-inline:0;z-index:5;pointer-events:none;
-  background:rgba(250,245,234,.06);
-  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
-}
-body::before{top:0;height:env(safe-area-inset-top,0px);}
-body::after{bottom:0;height:env(safe-area-inset-bottom,0px);}
+  /* زجاج ضبابي فوق منطقتي الأمان (النوتش وزر البداية): لوح شفاف خفيف الضبابية
+     يمتص لون المحتوى خلفه ويصقله — يظهر فقط على الآيفون مع viewport-fit=cover */
+  body::before,
+  body::after{
+    content:"";position:fixed;inset-inline:0;z-index:5;pointer-events:none;
+    background:rgba(250,245,234,.09);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  }
+  body::before{top:0;height:env(safe-area-inset-top,0px);}
+  body::after{bottom:0;height:env(safe-area-inset-bottom,0px);}
 
   /* ==================== شاشة التحميل ==================== */
   .boot{
