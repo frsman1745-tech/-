@@ -128,10 +128,9 @@ function startReveals(){
   });
 }
 
-/* ---------- Home: قائمة الشامية — صف واحد دائماً، بطاقات تدخل من اليمين مع التمرير،
-   انجراف يساري خفيف للشبكة على الديسكتوب فقط (≥1080)؛
-   على الأقل من 1080 يمرّر الصف أفقياً بلمسة (بلا أي سكرول بار مرئي) فلا انجراف.
-   لا نضيف أي طول سكرول إضافي: القسم يمر مع الصفحة، والحركة once عند وصول المقطع. ---------- */
+/* ---------- Home: قائمة الشامية — ديسكتوب صف واحد ببطاقات تدخل من اليمين مع انجراف
+   يساري خفيف؛ الجوال/التابلت بطاقات كاملة الشاشة تتتابع: كل بطاقة تطوف من الأسفل
+   عند وصولها (بلا سوايب يدوي)، وهكذا حتى آخر صنف. لا نضيف أي طول سكرول مرئي. ---------- */
 function startCats(){
   const sec = doc.getElementById('cats');
   if(!sec) return;
@@ -145,21 +144,18 @@ function startCats(){
 
   const grid = sec.querySelector('.cats-grid');
 
-  function bindEntrance(c, i, stagger){
-    return gsap.fromTo(c, { x:92, opacity:0 }, {
-      x:0, opacity:1,
-      duration:.6, delay:(i % 6) * stagger,
-      ease:'power3.out', overwrite:'auto',
-      scrollTrigger:{ trigger:c, start:'top 90%', once:true, invalidateOnRefresh:true },
-      onComplete:function(){ c.classList.add('in'); }
+  /* ديسكتوب (≥1080): دخول من اليمين + انجراف يساري خفيف للشبكة ككل (~2%) scrubbed */
+  const mmDesk = gsap.matchMedia();
+  mmDesk.add('(min-width: 1080px)', function(){
+    const tweens = cards.map(function(c, i){
+      return gsap.fromTo(c, { x:92, opacity:0 }, {
+        x:0, opacity:1,
+        duration:.6, delay:(i % 6) * 0.06,
+        ease:'power3.out', overwrite:'auto',
+        scrollTrigger:{ trigger:c, start:'top 90%', once:true, invalidateOnRefresh:true },
+        onComplete:function(){ c.classList.add('in'); }
+      });
     });
-  }
-
-  const mm = gsap.matchMedia();
-
-  /* ديسكتوب (≥1080): 6 أعمدة متساوية + انجراف يساري خفيف للشبكة ككل (~2%) scrubbed */
-  mm.add('(min-width: 1080px)', function(){
-    const tweens = cards.map(function(c, i){ return bindEntrance(c, i, 0.06); });
     let drift = null;
     if(grid){
       drift = gsap.fromTo(grid, { x:0 }, {
@@ -173,9 +169,19 @@ function startCats(){
     };
   });
 
-  /* موبايل/تابلت (<1080): صف واحد يمرّر أفقياً — دخول من اليمين بلا انجراف أفقي للشبكة */
-  mm.add('(max-width: 1079px)', function(){
-    const tweens = cards.map(function(c, i){ return bindEntrance(c, i, 0.04); });
+  /* جوال/تابلت (<1080): صفوف متتالية ببطاقة لكل شاشة — كل بطاقة تصعد من الأسفل
+     حين تصل وتُعرض صورة الصنف كاملة، ثم يكشف التمرير التالية */
+  const mmMob = gsap.matchMedia();
+  mmMob.add('(max-width: 1079px)', function(){
+    const tweens = cards.map(function(c, i){
+      return gsap.fromTo(c, { y:60, opacity:0 }, {
+        y:0, opacity:1,
+        duration:.7, delay:i * 0.03,
+        ease:'power3.out', overwrite:'auto',
+        scrollTrigger:{ trigger:c, start:'top 85%', once:true, invalidateOnRefresh:true },
+        onComplete:function(){ c.classList.add('in'); }
+      });
+    });
     return function(){ tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); }); };
   });
 }
