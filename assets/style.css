@@ -11,6 +11,9 @@
     --burgundy:#5A2A2E;
     --pistachio:#8CA35C;
     --ink:#20201C;
+    /* نغمة حافة محايدة هادئة (مشتقة من عائلة الكحلي/التركواز بدرجة أقل تشبّعاً):
+       تمتص الأطراف (شريط المتصفح، مناطق الأمان، السحب الزائد) دون أن تتفلت بلون قسم صارخ */
+    --edge-tone:#1C3740;
 
     --ink-2:var(--navy-deep);
     --ink-3:var(--navy);
@@ -26,14 +29,14 @@
     --max:1280px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--edge-live,var(--navy-deep));}
+  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--edge-live,var(--edge-tone));}
   html,body{overscroll-behavior-y:none;}
-  /* خلفية واحدة للوثيقة كاملة بالكحلي: تطابق أعلى الصفحة (الهيرو) وأسفلها (الفوتر)
-     حتى لا تظهر منطقة السحب الزائد أو انزلاق شريط المتصفح بلون أبيض أو شريط دخيل */
+  /* خلفية واحدة للوثيقة كاملة بنغمة الحافة المحايدة: تغطي أعلى الصفحة (الهيرو) وأسفلها (الفوتر)
+     ومنطقة السحب الزائد وشريط المتصفح، فتبدو الحواف مدمجة ومقصودة بدل شرائط دخيلة */
   body{
     margin:0;
     font-family:'Tajawal',sans-serif;
-    background:var(--edge-live,var(--navy-deep));
+    background:var(--edge-live,var(--edge-tone));
     min-height:100svh;
     color:var(--ink);
     overflow-x:hidden;
@@ -195,8 +198,8 @@
   .hero h1 .line:nth-child(2) > span{animation-delay:.18s;}
   .hero h1 .line:nth-child(3) > span{animation-delay:.36s;}
   .hero h1 .line.line-sm > span{
-    font-size:.56em;line-height:1.5;letter-spacing:0;font-weight:400;
-    color:rgba(255,255,255,.95);
+    font-size:.6em;line-height:1.5;letter-spacing:.02em;font-weight:600;
+    color:#fff;text-shadow:0 2px 20px rgba(6,20,36,.4);
   }
   .hero h1 .gold{color:var(--gold);}
   .hero h1 .gold-2{color:var(--gold-2);}
@@ -283,6 +286,9 @@
   @media (max-width:640px){
     .hero-card,.float-ring,.hero-note{display:none;}
     .hero{padding:96px 0 50px;}
+    .hero h1{font-size:clamp(42px,11vw,48px);letter-spacing:.004em;}
+    html[lang="en"] .hero h1{font-size:clamp(38px,10vw,60px);}
+    .hero h1 .line.line-sm > span{font-size:.62em;}
     .hero-ctas .btn{flex:1 1 42%;padding-inline:16px;}
     /* على الجوال لا يحتوي الحاوية إلا البطاقة البيضاء (شريط التقييم) فنجعلها حاضنة شفافة */
     .hero-visual{display:contents;}
@@ -298,6 +304,9 @@
     .hero-strip b{font-family:'Aref Ruqaa',serif;font-size:15px;display:block;}
     .hero-strip small{font-size:11px;color:rgba(14,36,54,.6);line-height:1.6;display:block;}
     .hero-strip .stars{color:var(--gold);letter-spacing:.14em;font-size:11px;margin-inline-start:auto;white-space:nowrap;}
+  }
+  @media (max-width:350px){
+    .hero h1{font-size:clamp(36px,11vw,42px);}
   }
   @media (max-height:700px){
     .hero{padding:88px 0 40px;}
@@ -322,7 +331,7 @@
   }
   @media (max-width:640px) and (max-height:720px){
     .hero{padding:72px 0 24px;}
-    .hero h1{font-size:clamp(34px,5.4vw,42px);}
+    .hero h1{font-size:clamp(38px,9vw,46px);}
     .hero p.lead{line-height:1.7;}
     .hero-stats{display:none;}
     .hero-strip{margin-top:10px;padding:9px 13px;}
@@ -817,16 +826,16 @@
     .edge-frost{
       position:fixed;inset-inline:0;top:0;z-index:5;pointer-events:none;
       height:calc(env(safe-area-inset-top,0px) + 14px);
-      background:linear-gradient(to bottom, var(--edge-live,var(--navy-deep)) 0%, transparent 100%);
-      background:linear-gradient(to bottom, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
+      background:linear-gradient(to bottom, var(--edge-live,var(--edge-tone)) 0%, transparent 100%);
+      background:linear-gradient(to bottom, var(--edge-live,var(--edge-tone)) 0%, color-mix(in srgb,var(--edge-live,var(--edge-tone)) 55%, transparent) 55%, transparent 100%);
       -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
       opacity:.92;
     }
     .edge-frost.br{
       top:auto;bottom:0;
       height:calc(env(safe-area-inset-bottom,0px) + 14px);
-      background:linear-gradient(to top, var(--edge-live,var(--navy-deep)) 0%, transparent 100%);
-      background:linear-gradient(to top, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
+      background:linear-gradient(to top, var(--edge-live,var(--edge-tone)) 0%, transparent 100%);
+      background:linear-gradient(to top, var(--edge-live,var(--edge-tone)) 0%, color-mix(in srgb,var(--edge-live,var(--edge-tone)) 55%, transparent) 55%, transparent 100%);
     }
   }
 
