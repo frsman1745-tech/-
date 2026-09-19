@@ -13,6 +13,10 @@ function revealAll(){
   doc.querySelectorAll('[data-reveal], .cat-card').forEach(function(el){
     el.classList.add('in');
   });
+  doc.querySelectorAll('.cat-card').forEach(function(el){
+    el.style.opacity = '';
+    el.style.transform = '';
+  });
 }
 
 function refresh(){
@@ -113,79 +117,47 @@ function startReveals(){
   });
 }
 
-/* ---------- Home: قائمة الشامية — معرض ملء الشاشة يزاح لليسار مع التمرير ---------- */
+/* ---------- Home: قائمة الشامية — الشبكة تنزاح لليسار والبطاقات تدخل من اليمين مع التمرير ----------
+   لا نضيف أي si-scrollbar ظاهر ولا طول سكرول إضافي: القسم يمر مع صفحة عادية،
+   والحركة مرتبطة بمروره عبر الشاشة فقط (scrub بلا ثبات/لصق). */
 function startCats(){
   const sec = doc.getElementById('cats');
   if(!sec) return;
-  const track = sec.querySelector('.cats-track');
-  const slides = track ? Array.prototype.slice.call(track.querySelectorAll('.cat-slide')) : [];
-  if(!slides.length) return;
+  const cards = gsap.utils.toArray(sec.querySelectorAll('.cat-card'));
+  if(!cards.length) return;
 
-  if(!track || slides.length < 2 || reduce){
-    /* مسار بسيط (بدون حركة / JS عاجز): الشرائح مكدسة عمودياً */
-    sec.classList.add('cats-static');
+  if(reduce){
+    cards.forEach(function(c){ c.classList.add('in'); });
     return;
   }
 
-  sec.classList.add('cats-scrub');
-  const unit = (window.CSS && CSS.supports && CSS.supports('height', '100svh')) ? 'svh' : 'vh';
-  sec.style.setProperty('--cats-h', 'calc(' + slides.length + ' * 100' + unit + ')');
-
-  const idx = doc.getElementById('catsIdx');
-  const fill = doc.getElementById('catsFill');
-  let lastIdx = -1;
-
-  gsap.to(track, {
-    x:function(){ return -(slides.length - 1) * window.innerWidth; },
-    ease:'none',
-    scrollTrigger:{
-      trigger:sec,
-      start:'top top',
-      end:'bottom bottom',
-      scrub:0.55,
-      invalidateOnRefresh:true,
-      onUpdate(self){
-        const p = self.progress;
-        const i = 1 + Math.min(slides.length - 1, Math.max(0, Math.round(p * (slides.length - 1))));
-        if(i !== lastIdx){
-          lastIdx = i;
-          if(idx) idx.textContent = ('0' + i).slice(-2);
-        }
-        if(fill) fill.style.transform = 'scaleX(' + p + ')';
+  /* الشبكة كلها تنزاح بهدوء إلى اليسار أثناء ظهور القسم واختفائه */
+  const grid = sec.querySelector('.cats-grid');
+  if(grid){
+    gsap.fromTo(grid, { x:0 }, {
+      x:'-3.5%', ease:'none',
+      scrollTrigger:{
+        trigger:sec, start:'top bottom', end:'bottom top',
+        scrub:0.4, invalidateOnRefresh:true
       }
-    }
-  });
-
-  /* ---------- كين-بيرنز خفيف: كل صورة تتنفس ببطء (تكبير→استواء) أثناء السير ---------- */
-  slides.forEach(function(s){
-    const img = s.querySelector('img');
-    if(!img) return;
-    gsap.fromTo(img, { scale:1.14, yPercent:1.4 }, {
-      scale:1.0, yPercent:-1.4,
-      ease:'none',
-      scrollTrigger:{ trigger:sec, start:'top top', end:'bottom bottom', scrub:0.55, invalidateOnRefresh:true }
     });
-  });
-
-  /* ---------- دخول سينمائي للشريحة الأولى: العناصر تتتالى حين يقترب المعرض ---------- */
-  const first = slides[0];
-  if(first){
-    const kids = gsap.utils.toArray(first.querySelectorAll('.cat-body .tag, .cat-body h3, .cat-body p, .cat-body .go'));
-    if(kids.length){
-      gsap.fromTo(kids, { y:30, opacity:0 }, {
-        y:0, opacity:1, duration:.8, stagger:.09, ease:'power3.out', overwrite:true,
-        scrollTrigger:{ trigger:sec, start:'top 62%' }
-      });
-    }
   }
 
-  /* ---------- انجراف متوازٍ خفيف لأجسام الشرائح (عمق بصري دون إخفاء المحتوى) ---------- */
-  slides.forEach(function(s){
-    const body = s.querySelector('.cat-body');
-    if(!body) return;
-    gsap.fromTo(body, { y:26 }, {
-      y:-26, ease:'none',
-      scrollTrigger:{ trigger:sec, start:'top top', end:'bottom bottom', scrub:0.55, invalidateOnRefresh:true }
+  /* كل بطاقة تنطلق من اليمين وتستقر مكانها بنعومة مع التمرير (إحساس السكراب عالي الـfps) */
+  cards.forEach(function(c){
+    let done = false;
+    gsap.fromTo(c, { x:92, opacity:0 }, {
+      x:0, opacity:1, ease:'none',
+      scrollTrigger:{
+        trigger:c, start:'top 96%', end:'top 42%',
+        scrub:0.9, invalidateOnRefresh:true,
+        onUpdate(self){
+          if(!done && self.progress >= 0.999){
+            done = true;
+            c.classList.add('in');
+          }
+        }
+      }
     });
   });
 }
@@ -473,14 +445,15 @@ function bindLenis(){
 function init(){
   settleScrub();
   startHeaderTheme();
-  startCats();
   if(reduce){
+    startCats();
     revealAll();
     return;
   }
 
   try{
     root.classList.add('motion');
+    startCats();
     bindLenis();
     startScrollProgress();
     startHero();

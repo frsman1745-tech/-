@@ -1,7 +1,8 @@
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 
-/* فحص قائمة الشامية (index.html #cats): المعرض البانورامي يزاح لليسار مع التمرير */
+/* فحص قائمة الشامية (index.html #cats): شبكة بطاقات كلاسيكية، بلا سكرول ظاهر/طويل،
+   الشبكة تنزاح لليسار مع التمرير والبطاقات تدخل من اليمين أثناء مرور القسم. */
 const CHROME = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
@@ -13,6 +14,7 @@ if (!CHROME) { console.error('Chrome not found'); process.exit(1); }
 const BASE = 'http://localhost:5173/';
 const VIEWPORTS = [
   { name: 'mobile', width: 360, height: 740, dpr: 2 },
+  { name: 'tablet', width: 768, height: 1024, dpr: 2 },
   { name: 'desktop', width: 1440, height: 900, dpr: 1 }
 ];
 
@@ -44,68 +46,75 @@ for (const vp of VIEWPORTS) {
     const scrollToY = async (y) => {
       if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true });
       else window.scrollTo(0, y);
-      await sleep(26);
+      await sleep(24);
     };
 
     const sec = document.getElementById('cats');
-    const track = document.getElementById('catsTrack');
-    const vpTop = sec.getBoundingClientRect().top + window.scrollY;
-    const vpH = Math.round(sec.getBoundingClientRect().height);
-    const slides = [...track.querySelectorAll('.cat-slide')];
-    const totalScroll = { start: vpTop, end: sec.getBoundingClientRect().bottom + window.scrollY };
+    const grid = sec.querySelector('.cats-grid');
+    const cards = [...sec.querySelectorAll('.cat-card')];
+    const rect = sec.getBoundingClientRect();
+    const top = rect.top + window.scrollY;
 
     const struct = {
       motionOn: document.documentElement.classList.contains('motion'),
-      scrubClass: sec.classList.contains('cats-scrub'),
+      scrubClass: sec.classList.contains('cats-scrub'),         /* مفترض غائب تماماً */
       staticClass: sec.classList.contains('cats-static'),
-      slidesCount: slides.length,
-      catsHeight: getComputedStyle(sec).height,
-      vpPosition: getComputedStyle(sec.querySelector('.cats-viewport')).position,
-      trackDirection: getComputedStyle(track).direction,
-      trackDisplay: getComputedStyle(track).display
+      hasLegacy: !!document.getElementById('catsTrack') || !!document.querySelector('.cat-slide') || !!document.getElementById('catsIdx') || !!document.querySelector('.cats-ui'),
+      cardsCount: cards.length,
+      catsHeightPx: Math.round(rect.height),
+      catsTop: Math.round(top),
+      overflowX: getComputedStyle(document.documentElement).overflowX,
+      overflowY: getComputedStyle(document.documentElement).overflowY,
+      cols: getComputedStyle(grid).gridTemplateColumns.split(' ').length
     };
 
-    /* نطبع قيم x عبر المرور التدريجي */
-    const xSamples = [];
-    const counterSeen = new Set();
-    const vw = window.innerWidth;
-    const maxX = (slides.length - 1) * vw;
-    for (let y = vpTop; y <= totalScroll.end; y += Math.round(cfg.height * 0.45)) {
+    /* مسح القسم: عينة x للشبكة + حالة أول بطاقة (دخول من اليمين) + آخر بطاقة */
+    const gridX = [];
+    const firstSlide = [];
+    const lastSlide = [];
+    const from = cfg.height;
+    const to = rect.height + cfg.height * 0.5;
+    const step = Math.max(2, Math.round(cfg.height * 0.35));
+    for (let y = top - from; y < top + to; y += step) {
       await scrollToY(y);
-      await sleep(16);
-      const t = getComputedStyle(track).transform;
-      const m = t.match(/matrix\(([^)]+)\)/);
-      if (m) xSamples.push(Math.round(parseFloat(m[1].split(',')[4]) * 10) / 10);
-      const c = document.getElementById('catsIdx');
-      if (c) counterSeen.add(c.textContent);
+      await sleep(10);
+      const gx = getComputedStyle(grid).transform;
+      const m = gx.match(/matrix\(([^)]+)\)/);
+      gridX.push(m ? Math.round(parseFloat(m[1].split(',')[4]) * 10) / 10 : 0);
+      const read = (card) => {
+        const t = getComputedStyle(card).transform;
+        const mm = t.match(/matrix\(([^)]+)\)/);
+        return {
+          tx: mm ? Math.round(parseFloat(mm[1].split(',')[4]) * 10) / 10 : 0,
+          op: Math.round(parseFloat(getComputedStyle(card).opacity) * 100) / 100
+        };
+      };
+      if (firstSlide.length < 80) firstSlide.push(read(cards[0]));
+      if (lastSlide.length < 80) lastSlide.push(read(cards[cards.length - 1]));
     }
+    await scrollToY(top + to);
+    await sleep(300);
 
-    /* نهاية المسار: نتأكد الوصول لأقصى إزاحة يسرى والشرائح الأخيرة ظاهرة */
-    await scrollToY(totalScroll.end - cfg.height);
-    await sleep(350);
-    const tEnd = getComputedStyle(track).transform;
-    const mEnd = tEnd.match(/matrix\(([^)]+)\)/);
-    const xEnd = mEnd ? Math.round(parseFloat(mEnd[1].split(',')[4])) : null;
-    const endCounter = document.getElementById('catsIdx')?.textContent;
-    const fillEnd = getComputedStyle(document.getElementById('catsFill')).transform;
-
-    const slideImgs = slides.map((s, i) => ({
-      i: i + 1,
-      w: Math.round(s.getBoundingClientRect().width),
-      imgW: s.querySelector('img')?.naturalWidth || 0,
-      src: s.querySelector('img')?.getAttribute('src').split('/').pop()
-    }));
+    const finalFirst = readFinal(cards[0]);
+    const finalLast = readFinal(cards[cards.length - 1]);
+    function readFinal(card) {
+      const t = getComputedStyle(card).transform;
+      const mm = t.match(/matrix\(([^)]+)\)/);
+      return {
+        tx: mm ? Math.round(parseFloat(mm[1].split(',')[4]) * 10) / 10 : 0,
+        op: Math.round(parseFloat(getComputedStyle(card).opacity) * 100) / 100
+      };
+    }
 
     return {
       struct,
-      vw,
-      maxX,
-      xSamples,
-      counterSeen: [...counterSeen],
-      xEnd,
-      endCounter,
-      fillEnd,
-      slideImgs
+      gridX,
+      firstSlide,
+      lastSlide,
+      finalFirst,
+      finalLast,
+      imgsLoaded: cards.map((c) => Math.round(c.querySelector('img')?.naturalWidth || 0)),
+      linksOk: cards.map((c) => !!c.getAttribute('href'))
     };
   }, vp);
 
@@ -115,20 +124,23 @@ for (const vp of VIEWPORTS) {
 
 await browser.close();
 
-for (const name of ['mobile', 'desktop']) {
+for (const name of ['mobile', 'tablet', 'desktop']) {
   const r = out[name];
-  const okGrid = r.struct.scrubClass && r.struct.vpPosition === 'sticky';
-  const xMidCount = r.xSamples.filter((x) => x < 0).length;
-  const reachesEnd = r.xEnd !== null && Math.abs(r.xEnd - (-r.maxX)) <= 3;
-  const counterReach = r.endCounter === String(r.struct.slidesCount).padStart(2, '0');
-  const slidesOk = r.slideImgs.every((s) => s.w === r.vw) && r.slideImgs.every((s) => s.imgW > 0);
+  const drift = r.gridX.filter((x) => x < -3).length;
+  const driftMin = Math.min(...r.gridX);
+  const firstWasHidden = r.firstSlide.some((s) => s.op < 0.15 && s.tx >= 60);
+  const firstEndsIn = r.finalFirst.op > 0.95 && Math.abs(r.finalFirst.tx) <= 4;
+  const lastEndsIn = r.finalLast.op > 0.95 && Math.abs(r.finalLast.tx) <= 4;
+  const firstProgressive = r.firstSlide.some((s) => s.op > 0.2 && s.op < 0.9);
   r._check = {
-    sticky: okGrid,
-    movesLeftGradually: r.xSamples.length > 3 && xMidCount >= 3 && r.xSamples[0] === 0,
-    reachesFullLeft: reachesEnd,
-    counterReachesLast: counterReach,
-    fillReachesFull: r.fillEnd.includes('1,') || r.fillEnd.includes('1)'),
-    slidesFullscreen: slidesOk,
+    normalLayout: !r.struct.scrubClass && !r.struct.staticClass && !r.struct.hasLegacy,
+    noInflatedHeight: r.struct.catsHeightPx > 60 && r.struct.catsHeightPx < 4000,
+    sixCards: r.struct.cardsCount === 6,
+    gridDriftsLeft: drift >= 3 && r.gridX[0] >= -1 && driftMin <= -8,
+    cardsSlideInFromRight: firstWasHidden && firstEndsIn && firstProgressive,
+    lastCardAlsoVisible: lastEndsIn,
+    imagesLoaded: r.imgsLoaded.every((w) => w > 0),
+    linksOk: r.linksOk.every(Boolean),
     noConsoleErrors: r.consoleErrors.length === 0 && r.pageErrors.length === 0
   };
 }
