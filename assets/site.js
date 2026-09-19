@@ -2,6 +2,12 @@
   "use strict";
   var doc = document;
 
+  /* إعادة تحديث الصفحة → نبدأ دوماً من أعلاها (لا استرجاع موضع التمرير) */
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  if(doc.documentElement) doc.documentElement.scrollTop = 0;
+  if(doc.body) doc.body.scrollTop = 0;
+
   var header = doc.getElementById('siteHeader');
   var lastY = window.scrollY;
   window.addEventListener('scroll', function(){
