@@ -24,69 +24,6 @@ function refresh(){
   ScrollTrigger.refresh();
 }
 
-/* لون الحافة العلوية يتبع القسم الظاهر حالياً أعلى الشاشة (كأنها شفافة)،
-   لكن بنسخة مهدّأة مخفّفة التشبّع تميل إلى النغمة المحايدة --edge-tone
-   حتى لا تتفلت الأطراف (شريط المتصفح، مناطق الأمان، السحب الزائد) بلون قسم صارخ */
-function initEdgeSync(){
-  const tag = '--section-edge';
-  let last = '';
-  const frost = doc.createElement('div');
-  frost.className = 'edge-frost';
-  frost.setAttribute('aria-hidden', 'true');
-  const frostBr = frost.cloneNode(false);
-  frostBr.className = 'edge-frost br';
-  doc.body.appendChild(frost);
-  doc.body.appendChild(frostBr);
-  function toneHex(){
-    const v = getComputedStyle(root).getPropertyValue('--edge-tone').trim();
-    return (v && v.indexOf('#') === 0) ? v : '#1C3740';
-  }
-  function blend(color){
-    if(!color) return toneHex();
-    const t = toneHex();
-    let r, g, b;
-    if(color.indexOf('#') === 0 && [4, 7].indexOf(color.length) !== -1){
-      const h = color.length === 4 ? color.slice(1).split('').map(function(c){ return c + c; }).join('') : color.slice(1);
-      r = parseInt(h.slice(0, 2), 16); g = parseInt(h.slice(2, 4), 16); b = parseInt(h.slice(4, 6), 16);
-    }else{
-      const m = color.match(/rgba?\(([^)]+)\)/);
-      if(!m) return t;
-      const p = m[1].split(',').map(parseFloat);
-      r = p[0]; g = p[1]; b = p[2];
-    }
-    const tr = parseInt(t.slice(1, 3), 16), tg = parseInt(t.slice(3, 5), 16), tb = parseInt(t.slice(5, 7), 16);
-    const toN = function(v){ return Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0'); };
-    const k = 0.34;
-    return '#' + toN(r * k + tr * (1 - k)) + toN(g * k + tg * (1 - k)) + toN(b * k + tb * (1 - k));
-  }
-  function setEdge(color){
-    const tone = blend(color);
-    if(tone === last) return;
-    last = tone;
-    /* نضبط اللون على html وbody مباشرة لموثوقية متصفحات الجوال */
-    root.style.setProperty('--edge-live', tone);
-    root.style.backgroundColor = tone;
-    doc.body.style.backgroundColor = tone;
-    const meta = doc.querySelector('meta[name="theme-color"]');
-    if(meta) meta.setAttribute('content', tone);
-  }
-  function sample(){
-    let color = '';
-    const stack = doc.elementsFromPoint(Math.max(1, Math.round(innerWidth / 2)), 2);
-    for(let i = 0; i < stack.length; i++){
-      const c = getComputedStyle(stack[i]).getPropertyValue(tag).trim();
-      if(c){ color = c; break; }
-    }
-    setEdge(color);
-  }
-  sample();
-  window.addEventListener('scroll', sample, { passive:true });
-  window.addEventListener('resize', sample, { passive:true });
-  window.addEventListener('load', sample);
-  const lenis = window.__lenis;
-  if(lenis && lenis.on) lenis.on('scroll', sample);
-}
-
 function startScrollProgress(){
   const bar = doc.createElement('div');
   bar.className = 'scroll-progress';
@@ -580,7 +517,6 @@ function init(){
     startCats();
     initFalcon();
     revealAll();
-    initEdgeSync();
     return;
   }
 
@@ -589,7 +525,6 @@ function init(){
     root.classList.add('motion');
     startCats();
     bindLenis();
-    initEdgeSync();
     startScrollProgress();
     startHero();
     startReveals();

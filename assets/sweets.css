@@ -7,7 +7,6 @@
     position:relative;
     height:100vh;
     height:100svh;
-    --section-edge:var(--navy);
     background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);
     color:var(--ivory);
   }
@@ -136,7 +135,6 @@
 
   /* ---------- Menu / الأصناف ---------- */
   .menu{
-    --section-edge:var(--ivory);
     background:
       radial-gradient(120% 120% at 10% 0%, rgba(76,166,196,.12), transparent 56%),
       linear-gradient(180deg,var(--ivory),var(--cream));
