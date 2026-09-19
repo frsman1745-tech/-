@@ -26,7 +26,7 @@
     --max:1280px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--navy-deep);}
+  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--edge-live,var(--navy-deep));}
   html,body{overscroll-behavior-y:none;}
   /* خلفية واحدة للوثيقة كاملة بالكحلي: تطابق أعلى الصفحة (الهيرو) وأسفلها (الفوتر)
      حتى لا تظهر منطقة السحب الزائد أو انزلاق شريط المتصفح بلون أبيض أو شريط دخيل */
@@ -154,6 +154,7 @@
   .hero{
     min-height:100vh;
     min-height:100svh;
+    --section-edge:#1a5e78;
     background:
       radial-gradient(120% 90% at 75% 15%, rgba(255,255,255,.10), transparent 60%),
       linear-gradient(180deg, #1a5e78 0%, #2f83a2 45%, #3f9bb9 100%);
@@ -335,6 +336,7 @@
 
   /* ============ Marquee ============ */
   .marquee{
+    --section-edge:var(--gold);
     background:linear-gradient(90deg,var(--gold-deep),var(--gold) 45%,var(--gold-soft) 100%);
     overflow:hidden;
     overflow:clip;
@@ -362,6 +364,7 @@
 
   /* ============ Stats ============ */
   .stats{
+    --section-edge:var(--paper);
     background:var(--paper);
     padding:90px 0 96px;position:relative;
   }
@@ -430,7 +433,7 @@
   .story-badge small{font-size:11.5px;color:rgba(14,36,54,.55);}
 
   /* ============ Collection ============ */
-  .collection{background:var(--paper);padding:106px 0;}
+  .collection{--section-edge:var(--paper);background:var(--paper);padding:106px 0;}
   .coll-head{max-width:720px;margin-bottom:58px;}
   .coll-head .eyebrow{color:var(--gold);}
   .coll-head h2{font-size:clamp(30px,3.6vw,48px);line-height:1.3;margin-top:14px;color:var(--navy-deep);}
@@ -467,6 +470,7 @@
 
   /* ============ Occasions ============ */
   .occasions{
+    --section-edge:var(--navy);
     background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);
     color:var(--ivory);padding:106px 0;position:relative;overflow:hidden;
   }
@@ -495,6 +499,7 @@
 
   /* ============ Contact ============ */
   .contact{
+    --section-edge:#0a1520;
     background:
       linear-gradient(180deg, rgba(8,21,33,.9), rgba(8,21,33,.95)),
       url("facebook_cover.jpg") center/cover no-repeat;
@@ -619,6 +624,7 @@
 
   /* ============ Cats (أقسام الشامية) ============ */
   .cats{
+    --section-edge:var(--navy);
     background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);
     color:var(--ivory);padding:106px 0;position:relative;overflow:hidden;
   }
@@ -721,6 +727,7 @@
     min-height:100vh;
     min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;
+    --section-edge:#1a5e78;
     background:
       radial-gradient(120% 90% at 75% 15%, rgba(255,255,255,.10), transparent 60%),
       linear-gradient(180deg, #1a5e78 0%, #2f83a2 45%, #3f9bb9 100%);

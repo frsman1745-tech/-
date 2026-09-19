@@ -24,6 +24,31 @@ function refresh(){
   ScrollTrigger.refresh();
 }
 
+/* لون الحافة العلوية يتبع القسم الظاهر حالياً أعلى الشاشة (كأنها شفافة)،
+   حتى لا يظهر شريط دخيل بلون مخالف وسط منطقة السحب الزائد لمتصفحات الجوال */
+function initEdgeSync(){
+  const tag = '--section-edge';
+  let last = '';
+  function sample(){
+    let color = '';
+    const stack = doc.elementsFromPoint(Math.max(1, Math.round(innerWidth / 2)), 2);
+    for(let i = 0; i < stack.length; i++){
+      const c = getComputedStyle(stack[i]).getPropertyValue(tag).trim();
+      if(c){ color = c; break; }
+    }
+    if(color && color !== last){
+      last = color;
+      root.style.setProperty('--edge-live', color);
+    }
+  }
+  sample();
+  window.addEventListener('scroll', sample, { passive:true });
+  window.addEventListener('resize', sample, { passive:true });
+  window.addEventListener('load', sample);
+  const lenis = window.__lenis;
+  if(lenis && lenis.on) lenis.on('scroll', sample);
+}
+
 function startScrollProgress(){
   const bar = doc.createElement('div');
   bar.className = 'scroll-progress';
@@ -488,6 +513,7 @@ function init(){
     startCats();
     initFalcon();
     revealAll();
+    initEdgeSync();
     return;
   }
 
@@ -496,6 +522,7 @@ function init(){
     root.classList.add('motion');
     startCats();
     bindLenis();
+    initEdgeSync();
     startScrollProgress();
     startHero();
     startReveals();
