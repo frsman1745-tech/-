@@ -280,6 +280,8 @@
     .hero-card,.float-ring,.hero-note{display:none;}
     .hero{padding:96px 0 50px;}
     .hero-ctas .btn{flex:1 1 42%;padding-inline:16px;}
+    /* على الجوال لا يحتوي الحاوية إلا البطاقة البيضاء (شريط التقييم) فنجعلها حاضنة شفافة */
+    .hero-visual{display:contents;}
     .hero-strip{
       display:flex;align-items:center;gap:13px;
       margin:22px auto 0;max-width:430px;width:100%;
@@ -299,6 +301,33 @@
     .hero p.lead{margin:18px 0 22px;line-height:1.9;}
     .hero-stats{margin-top:16px;padding-top:12px;}
     .hero-note{margin-top:18px;}
+  }
+
+  /* هاتف قصير: ضبط المحتوى داخل الطية كي لا يُقصّ شريط التقييم الأبيض عند الحافة */
+  @media (max-width:640px) and (max-height:880px){
+    .hero{padding:82px 0 32px;}
+    .hero .kicker{margin-bottom:10px;}
+    .hero h1{line-height:1.22;}
+    .hero p.lead{margin:14px 0 18px;padding-top:14px;line-height:1.8;}
+    .hero-ctas{gap:10px;}
+    .hero-ctas .btn{padding:13px 18px;}
+    .hero-stats{margin-top:14px;padding-top:12px;gap:8px;}
+    .hero-strip{margin-top:12px;padding:10px 14px;}
+    .hero-strip img{width:52px;height:52px;}
+    .hero-strip small{line-height:1.5;}
+  }
+  @media (max-width:640px) and (max-height:720px){
+    .hero{padding:72px 0 24px;}
+    .hero h1{font-size:clamp(34px,5.4vw,42px);}
+    .hero p.lead{line-height:1.7;}
+    .hero-stats{display:none;}
+    .hero-strip{margin-top:10px;padding:9px 13px;}
+    .hero-strip img{width:48px;height:48px;}
+  }
+  @media (max-width:640px) and (max-height:620px){
+    .hero{padding:60px 0 18px;}
+    .hero p.lead{font-size:14px;}
+    .hero-ctas .btn{padding:12px 15px;font-size:14px;}
   }
 
   /* ============ Marquee ============ */
