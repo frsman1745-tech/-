@@ -129,8 +129,9 @@ function startReveals(){
 }
 
 /* ---------- Home: قائمة الشامية — ديسكتوب صف واحد ببطاقات تدخل من اليمين مع انجراف
-   يساري خفيف؛ الجوال/التابلت بطاقات كاملة الشاشة تتتابع: كل بطاقة تطوف من الأسفل
-   عند وصولها (بلا سوايب يدوي)، وهكذا حتى آخر صنف. لا نضيف أي طول سكرول مرئي. ---------- */
+   يساري خفيف؛ جوال/تابلت بانوراما أفقية مثبّتة: البطاقات كاملة الشاشة تنزاح يساراً
+   مع التمرير العمودي (scrub)، والسكرول نفسه يُستهلك حتى تُعرض الأصناف كلها ثم تتحرر. ---------- */
+let catsCleanup = null;
 function startCats(){
   const sec = doc.getElementById('cats');
   if(!sec) return;
@@ -169,21 +170,31 @@ function startCats(){
     };
   });
 
-  /* جوال/تابلت (<1080): صفوف متتالية ببطاقة لكل شاشة — كل بطاقة تصعد من الأسفل
-     حين تصل وتُعرض صورة الصنف كاملة، ثم يكشف التمرير التالية */
+  /* جوال/تابلت (<1080): بانوراما مثبّتة — القسم يلتصق بأعلى الشاشة وكل تمرير
+     ينقل البطاقات يساراً، ولا يُمرَّر القسم حتى تُستهلك كل الأصناف وتُعرض */
   const mmMob = gsap.matchMedia();
   mmMob.add('(max-width: 1079px)', function(){
-    const tweens = cards.map(function(c, i){
-      return gsap.fromTo(c, { y:60, opacity:0 }, {
-        y:0, opacity:1,
-        duration:.7, delay:i * 0.03,
-        ease:'power3.out', overwrite:'auto',
-        scrollTrigger:{ trigger:c, start:'top 85%', once:true, invalidateOnRefresh:true },
-        onComplete:function(){ c.classList.add('in'); }
-      });
+    const dist = function(){ return Math.max(100, (cards.length - 1) * (window.innerWidth || doc.documentElement.clientWidth)); };
+    const tween = gsap.to(grid, {
+      x: function(){ return -dist(); },
+      ease:'none',
+      scrollTrigger:{
+        trigger:sec, start:'top top',
+        end:function(){ return '+=' + dist(); },
+        pin:true, scrub:0.6, anticipatePin:1, invalidateOnRefresh:true
+      }
     });
-    return function(){ tweens.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); }); };
+    return function(){
+      if(tween.scrollTrigger) tween.scrollTrigger.kill();
+      tween.kill();
+      ScrollTrigger.refresh();
+    };
   });
+
+  catsCleanup = function(){
+    mmDesk.revert();
+    mmMob.revert();
+  };
 }
 
 function startComing(){
@@ -490,6 +501,7 @@ function init(){
   }catch(err){
     root.classList.remove('motion');
     if(falcon) falcon.reset();
+    if(catsCleanup) catsCleanup();
     revealAll();
     return;
   }

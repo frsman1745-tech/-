@@ -648,8 +648,32 @@
   .cat-body .go svg{width:14px;height:14px;transition:transform .35s var(--ease);}
   .cat-card:hover .go svg{transform:translateX(-6px);}
 
+  /* جوال/تابلت <1080 مع الحركة: بانوراما أفقية مثبّتة — البطاقات كاملة الشاشة
+     تنزاح يساراً تلقائياً مع التمرير العمودي، والسكرول يُستهلك حتى آخر صنف
+     (لا يمرّ الزائر للقسم التالي إلا بعد عرضها كلها؛ بلا أي سوايب يدوي) */
+  @media (max-width:1079px){
+    html.motion .cats{height:100svh;padding:0;}
+    html.motion .cats .container{max-width:none;padding:0;height:100svh;}
+    html.motion .cat-head{
+      position:absolute;inset-inline:0;top:0;margin:0;
+      padding:max(30px,4.5svh) 22px 0;max-width:none;z-index:3;pointer-events:none;
+    }
+    html.motion .cat-head h2{font-size:clamp(25px,6.4vw,32px);}
+    html.motion .cat-head p{display:none;}
+    html.motion .cats-grid{
+      display:flex;flex-direction:row;flex-wrap:nowrap;
+      width:max-content;height:100svh;gap:0;direction:ltr;
+    }
+    html.motion .cats-grid > .cat-card{
+      flex:0 0 auto;width:100vw;min-width:100vw;
+      height:100svh;min-height:100svh;border-radius:0;
+    }
+    /* البانوراما نفسها هي الكشف: البطاقات ظاهرة دائماً أثناء الانزلاق يساراً */
+    html.motion .cats-grid > .cat-card{opacity:1;}
+  }
+
   /* مع الحركة: تبدأ البطاقات مخفية (البويضة opacity فقط)، وقيم transform
-   يضبطها GSAP بالكامل (ديسكتوب دخول من اليمين / جوال صعود من الأسفل) */
+   يضبطها GSAP بالكامل (ديسكتوب دخول من اليمين / جوال بانوراما أفقية) */
   html.motion .cat-card{opacity:0;}
   html.motion .cat-card.in{opacity:1;}
 
