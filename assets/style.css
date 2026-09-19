@@ -28,10 +28,13 @@
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip;background:var(--navy-deep);}
   html,body{overscroll-behavior-y:none;}
+  /* خلفية واحدة للوثيقة كاملة بالكحلي: تطابق أعلى الصفحة (الهيرو) وأسفلها (الفوتر)
+     حتى لا تظهر منطقة السحب الزائد أو انزلاق شريط المتصفح بلون أبيض أو شريط دخيل */
   body{
     margin:0;
     font-family:'Tajawal',sans-serif;
-    background:var(--paper);
+    background:var(--navy-deep);
+    min-height:100svh;
     color:var(--ink);
     overflow-x:hidden;
     overflow-x:clip;
