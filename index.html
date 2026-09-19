@@ -9,7 +9,8 @@
 <link rel="apple-touch-icon" href="assets/logo.jpg">
 <meta property="og:title" content="الشامية | طعم دمشق الحلو">
 <meta property="og:description" content="حلويات شرقية أصيلة ومأكولات شامية من قلب دمشق.">
-<meta property="og:image" content="assets/logo.jpg">
+<!-- og:image مؤقت — غيّره إلى https://<دومينك>/assets/logo.jpg بعد نشر Vercel -->
+<meta property="og:image" content="https://raw.githubusercontent.com/frsman1745-tech/-/main/assets/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -45,14 +46,14 @@
     </nav>
 
     <div class="header-cta">
-      <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+      <button class="lang-toggle" id="langToggle" type="button" aria-label="تبديل اللغة" data-i18n="langToggleAria" data-i18n-attr="aria-label">
         <span id="langLabel">EN</span>
       </button>
-      <button class="btn btn-gold" data-open-modal>
+      <button class="btn btn-gold" type="button" data-open-modal>
         <span data-i18n="orderNow">اطلب الآن</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       </button>
-      <button class="burger" id="burger" aria-label="فتح القائمة" aria-expanded="false">
+      <button class="burger" id="burger" type="button" aria-label="فتح القائمة" data-i18n="burgerAria" data-i18n-attr="aria-label" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -69,7 +70,7 @@
         <span class="line"><span>نكهة دمشق</span></span>
         <span class="line line-sm"><span>الأصيلة <span class="gold-2">على مائدتكم</span></span></span>
       </h1>
-      <p class="lead" data-i18n="heroLead">حلويات شرقية أصيلة، نواشف، مناسف ومحاشٍ تُحضَّر يومياً بفستق حلبي طبيعي، وتُقدَّم بروح الضيافة الدمشقية.</p>
+      <p class="lead" data-i18n="heroLead">حلويات شرقية أصيلة، مناسف ومحاشٍ تُحضَّر يومياً بفستق حلبي طبيعي — بروح ضيافة دمشق.</p>
       <div class="hero-ctas">
         <a class="btn btn-gold" href="#cats" data-i18n="heroCta1">تصفح الأقسام</a>
         <a class="btn btn-ghost" href="#contact" data-i18n="heroCta2">اطلب الآن</a>
@@ -123,6 +124,15 @@
     <img class="mq" src="assets/image_07.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
     <img class="mq" src="assets/image_08.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
     <img class="mq" src="assets/image_09.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_01.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_02.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_03.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_04.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_05.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_06.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_07.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_08.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="mq" src="assets/image_09.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
   </div>
 </div>
 
@@ -131,8 +141,8 @@
   <div class="container">
     <div class="cat-head" data-reveal>
       <span class="eyebrow" data-i18n="catsEyebrow">قائمة الشامية</span>
-      <h2 data-i18n="catsTitle">أربعة أقسام… ومذاق لا يُنسى</h2>
-      <p data-i18n="catsLead">اخترنا لكم خلاصة المطبخ الدمشقي في أربعة أقسام: حلو طري، نواشف مقرمشة، مناسف سخية، ومحاشٍ على الطريقة المنزلية. تفضّلوا، فلكل ذوقٍ نصيب.</p>
+      <h2 data-i18n="catsTitle">ستة أقسام… ومذاق لا يُنسى</h2>
+      <p data-i18n="catsLead">اخترنا لكم خلاصة المطبخ الدمشقي في ستة أقسام: حلو طري، نواشف مقرمشة، غريبة ذائبة، مثلجات منعشة، مناسف سخية، ومحاشٍ على الطريقة المنزلية. تفضّلوا، فلكل ذوقٍ نصيب.</p>
     </div>
     <div class="cats-grid">
       <a class="cat-card" href="sweets.html">
@@ -269,7 +279,7 @@
     <div class="contact-actions" data-reveal>
       <a class="btn btn-gold" href="tel:6033011" data-i18n="contactCall">اتصل الآن</a>
       <a class="btn btn-ghost" href="https://www.instagram.com/alshamiehdelights/" target="_blank" rel="noopener" data-i18n="contactIg">افتح إنستغرام</a>
-      <button class="btn btn-ghost" data-open-modal data-i18n="contactMsg">راسلنا للطلب</button>
+      <button class="btn btn-ghost" type="button" data-open-modal data-i18n="contactMsg">راسلنا للطلب</button>
     </div>
     <div class="closing-phrase en">The Original Taste of the Levant</div>
   </div>
@@ -277,7 +287,7 @@
   <div class="container">
     <footer class="site-footer">
       <span>© <span id="year">2026</span> <span data-i18n="footerCopy">الشامية — حلويات ومأكولات شامية. جميع الحقوق محفوظة.</span></span>
-      <button class="to-top" id="toTop">
+      <button class="to-top" id="toTop" type="button">
         <span data-i18n="toTop">العودة للأعلى</span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
       </button>
@@ -293,7 +303,7 @@
         <h3 data-i18n="modalTitle">اطلب من الشامية</h3>
         <p data-i18n="modalLead">عبّئ المعلومات وسنتواصل معكم لتأكيد الطلب وأقرب موعد للتوصيل.</p>
       </div>
-      <button class="modal-x" id="modalClose" aria-label="إغلاق">×</button>
+      <button class="modal-x" id="modalClose" type="button" aria-label="إغلاق" data-i18n="modalCloseAria" data-i18n-attr="aria-label">×</button>
     </div>
     <div class="modal-body">
       <form id="orderForm" novalidate>
@@ -319,7 +329,7 @@
         </div>
         <h3 data-i18n="okTitle">شكراً لثقتكم!</h3>
         <p data-i18n="okText">تم استلام طلبكم، وسيتواصل معكم فريق الشامية بعد قليل لتأكيد التفاصيل.</p>
-        <button class="btn btn-dark" id="modalDone" data-i18n="okDone">حسناً، شكراً</button>
+        <button class="btn btn-dark" id="modalDone" type="button" data-i18n="okDone">حسناً، شكراً</button>
       </div>
     </div>
   </div>
@@ -407,10 +417,8 @@
   }, {threshold:.6});
   counters.forEach(function(c){ counterObserver.observe(c); });
 
-  /* ---------- Marquee: نُكرّر المجموعة مرة واحدة بالضبط ليصير الشريط حلقة سلسة
-     (نسختان متطابقتان + translate إلى -50% = عودة لا تُرى) ---------- */
-  var mqTrack = doc.getElementById('mqTrack');
-  if(mqTrack) mqTrack.innerHTML += mqTrack.innerHTML;
+  /* ---------- Marquee: المجموعة مكررة في HTML بالضبط مرتين (نسختان متطابقتان
+     + translate إلى -50% = عودة لا تُرى) — حتى تعمل الحلقة بلا JavaScript ---------- */
 
   /* ---------- شاشة التحميل — مِحرّك يتطابق مع سلوك site.js في بقية الصفحات ---------- */
   var boot = doc.getElementById('boot');
@@ -466,11 +474,19 @@
   var successEl = doc.getElementById('modalSuccess');
   var formErr = doc.getElementById('formErr');
   function clearBodyOverflow(){ if(!modal.classList.contains('open')) doc.body.style.overflow = ''; }
-  function openModal(){ modal.classList.add('open'); doc.body.style.overflow = 'hidden'; }
+  var lastFocus = null;
+  function openModal(){
+    lastFocus = doc.activeElement;
+    modal.classList.add('open');
+    doc.body.style.overflow = 'hidden';
+    var f = doc.getElementById('fName') || doc.getElementById('modalClose');
+    if(f) f.focus();
+  }
   function closeModal(){
     modal.classList.remove('open');
     clearBodyOverflow();
     setTimeout(function(){ form.style.display = ''; successEl.style.display = 'none'; formErr.style.display = 'none'; }, 300);
+    if(lastFocus && lastFocus.focus) setTimeout(function(){ lastFocus.focus(); }, 60);
   }
   doc.querySelectorAll('[data-open-modal]').forEach(function(b){ b.addEventListener('click', openModal); });
   doc.getElementById('modalClose').addEventListener('click', closeModal);
@@ -505,7 +521,8 @@
 
   /* ---------- Back to top & year ---------- */
   doc.getElementById('toTop').addEventListener('click', function(){
-    doc.getElementById('home').scrollIntoView({behavior:'smooth'});
+    if(window.__lenis) window.__lenis.scrollTo(0);
+    else window.scrollTo({ top:0, behavior:'smooth' });
   });
   var y = doc.getElementById('year');
   if(y) y.textContent = new Date().getFullYear();

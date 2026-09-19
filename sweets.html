@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/logo.jpg">
 <meta property="og:title" content="الحلو | الشامية">
 <meta property="og:description" content="بقلاوة بالفستق الحلبي وكنافة وحلويات مشكّلة — من قلب دمشق.">
-<meta property="og:image" content="assets/logo.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/frsman1745-tech/-/main/assets/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -45,11 +45,11 @@
       <a href="#contact" data-i18n="navContact">تواصل</a>
     </nav>
     <div class="header-cta">
-      <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+      <button class="lang-toggle" id="langToggle" type="button" aria-label="تبديل اللغة" data-i18n="langToggleAria" data-i18n-attr="aria-label">
         <span id="langLabel">EN</span>
       </button>
       <a class="btn btn-gold" href="#contact" data-i18n="orderNow">اطلب الآن</a>
-      <button class="burger" id="burger" aria-label="فتح القائمة" aria-expanded="false">
+      <button class="burger" id="burger" type="button" aria-label="فتح القائمة" data-i18n="burgerAria" data-i18n-attr="aria-label" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -128,9 +128,9 @@
             <img src="imeg/opt/item-01.webp" alt="بقلاوة بالفستق الحلبي" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>بقلاوة بالفستق الحلبي</h3>
-            <p>عجينة رقيقة محشوّة بالفستق الحلبي، معمّرة القطر لنتيجة هشّة لا تُقاوم.</p>
-            <span class="item-tag"><i></i>فستق حلبي</span>
+            <h3 data-i18n="item01Title">بقلاوة بالفستق الحلبي</h3>
+            <p data-i18n="item01Text">عجينة رقيقة محشوّة بالفستق الحلبي، معمّرة القطر لنتيجة هشّة لا تُقاوم.</p>
+            <span class="item-tag"><i></i><span data-i18n="item01Tag">فستق حلبي</span></span>
           </div>
         </article>
 
@@ -140,9 +140,9 @@
             <img src="imeg/opt/item-02.webp" alt="كنافة بالقشطة" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>كنافة بالقشطة</h3>
-            <p>خيوط كنافة ذهبية تتدفّق عليها قشطة طازجة وتُقطّر على السخونة بماء الورد.</p>
-            <span class="item-tag"><i></i>قشطة طازجة</span>
+            <h3 data-i18n="item02Title">كنافة بالقشطة</h3>
+            <p data-i18n="item02Text">خيوط كنافة ذهبية تتدفّق عليها قشطة طازجة وتُقطّر على السخونة بماء الورد.</p>
+            <span class="item-tag"><i></i><span data-i18n="item02Tag">قشطة طازجة</span></span>
           </div>
         </article>
 
@@ -152,9 +152,9 @@
             <img src="imeg/opt/item-03.webp" alt="حلويات مشكّلة" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>حلويات مشكّلة</h3>
-            <p>تشكيلة تجمع أرقى أصناف الشامية في صينية واحدة — مثالية لضمون وصالونات العيد.</p>
-            <span class="item-tag"><i></i>تشكيلة الشامية</span>
+            <h3 data-i18n="item03Title">حلويات مشكّلة</h3>
+            <p data-i18n="item03Text">تشكيلة تجمع أرقى أصناف الشامية في صينية واحدة — مثالية لضمون وصالونات العيد.</p>
+            <span class="item-tag"><i></i><span data-i18n="item03Tag">تشكيلة الشامية</span></span>
           </div>
         </article>
 
@@ -164,9 +164,9 @@
             <img src="imeg/opt/item-04.webp" alt="بقلاوة بالجوز" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>بقلاوة بالجوز</h3>
-            <p>حشوة جوز فاخرة مع لمسة قرفة، مغموسة بقطر ذهبي ليسوّق الطعم الكلاسيكي.</p>
-            <span class="item-tag"><i></i>جوز · قطر طبيعي</span>
+            <h3 data-i18n="item04Title">بقلاوة بالجوز</h3>
+            <p data-i18n="item04Text">حشوة جوز فاخرة مع لمسة قرفة، مغموسة بقطر ذهبي ليسوّق الطعم الكلاسيكي.</p>
+            <span class="item-tag"><i></i><span data-i18n="item04Tag">جوز · قطر طبيعي</span></span>
           </div>
         </article>
 
@@ -176,9 +176,9 @@
             <img src="imeg/opt/item-05.webp" alt="صينية السهرة" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>صينية السهرة</h3>
-            <p>صينية ملكية تجمع تشكيلة الحلو طرّاً — رفيقة مجالسكم وضيافتكم الكبيرة.</p>
-            <span class="item-tag"><i></i>للمناسبات</span>
+            <h3 data-i18n="item05Title">صينية السهرة</h3>
+            <p data-i18n="item05Text">صينية ملكية تجمع تشكيلة الحلو طرّاً — رفيقة مجالسكم وضيافتكم الكبيرة.</p>
+            <span class="item-tag"><i></i><span data-i18n="item05Tag">للمناسبات</span></span>
           </div>
         </article>
 
@@ -188,9 +188,9 @@
             <img src="imeg/opt/item-06.webp" alt="معمول وغريبة" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>معمول وغريبة</h3>
-            <p>معمول محشو بالتمر والفستق مع غريبة تذوب في الفم — رفيقة القهوة في كل جلسة.</p>
-            <span class="item-tag"><i></i>رفيقة القهوة</span>
+            <h3 data-i18n="item06Title">معمول وغريبة</h3>
+            <p data-i18n="item06Text">معمول محشو بالتمر والفستق مع غريبة تذوب في الفم — رفيقة القهوة في كل جلسة.</p>
+            <span class="item-tag"><i></i><span data-i18n="item06Tag">رفيقة القهوة</span></span>
           </div>
         </article>
 
@@ -200,9 +200,9 @@
             <img src="imeg/opt/item-07.webp" alt="قطايف بالقشطة" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>قطايف بالقشطة</h3>
-            <p>قطايف مقلية ذهبية تُحشى بالقشطة الطازجة وتُقطّر بالعسل — حكاية رمضانية كاملة.</p>
-            <span class="item-tag"><i></i>طازجة يومياً</span>
+            <h3 data-i18n="item07Title">قطايف بالقشطة</h3>
+            <p data-i18n="item07Text">قطايف مقلية ذهبية تُحشى بالقشطة الطازجة وتُقطّر بالعسل — حكاية رمضانية كاملة.</p>
+            <span class="item-tag"><i></i><span data-i18n="item07Tag">طازجة يومياً</span></span>
           </div>
         </article>
 
@@ -212,9 +212,9 @@
             <img src="imeg/opt/item-08.webp" alt="مربعات العسل" loading="lazy">
           </div>
           <div class="item-body">
-            <h3>مربعات العسل</h3>
-            <p>مربعات معجّنة هشّة مغطاة بالعسل الطبيعي ورشّة فستق — لمسة حلو ختامية مثالية.</p>
-            <span class="item-tag"><i></i>عسل · فستق</span>
+            <h3 data-i18n="item08Title">مربعات العسل</h3>
+            <p data-i18n="item08Text">مربعات معجّنة هشّة مغطاة بالعسل الطبيعي ورشّة فستق — لمسة حلو ختامية مثالية.</p>
+            <span class="item-tag"><i></i><span data-i18n="item08Tag">عسل · فستق</span></span>
           </div>
         </article>
       </div>

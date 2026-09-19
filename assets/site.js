@@ -81,28 +81,28 @@
       if(shown < 60 && !realDone) t1 = setTimeout(anim, reduce ? 200 : 240);
     }
 
-    var tick = window.__preloadTick;
-    if(tick){
-      window.__preloadTick = function(loaded, total){
-        var p = Math.round((loaded / Math.max(total || 1, 1)) * 100);
-        paint(p >= 10 ? 30 + p * 0.55 : p);   /* تحويل إلى مقياس ٣٠→٨٥ */
-        if(loaded >= total) realDone = true;
-      };
-    }
+    /* نُثبّت الخطافات دائمًا (motion.js يأتي لاحقاً على كل الصفحات)، حتى يغذّي
+       تقدم تحميل فريمات السكرول شاشة الإقلاع فعلاً بدل الانتظار الافتراضي فقط */
+    var prevTick = window.__preloadTick;
+    window.__preloadTick = function(loaded, total){
+      if(prevTick) prevTick(loaded, total);
+      var p = Math.round((loaded / Math.max(total || 1, 1)) * 100);
+      paint(p >= 10 ? 30 + p * 0.55 : p);   /* تحويل إلى مقياس ٣٠→٨٥ */
+      if(loaded >= total) realDone = true;
+    };
 
     /* window load + الخطاف النهائي من motion.js ينهيان */
     window.addEventListener('load', function(){
       paint(88);
       setTimeout(settle, reduce ? 0 : 250);
     });
-    var done = window.__preloadDone;
-    if(done){
-      window.__preloadDone = function(){
-        realDone = true;
-        paint(100);
-        setTimeout(settle, 120);
-      };
-    }
+    var prevDone = window.__preloadDone;
+    window.__preloadDone = function(){
+      if(prevDone) prevDone();
+      realDone = true;
+      paint(100);
+      setTimeout(settle, 120);
+    };
     setTimeout(function(){ fade(); }, maxShow); /* طوارئ: لا شيء يعلق للأبد */
 
     doc.body.classList.add('no-scroll');

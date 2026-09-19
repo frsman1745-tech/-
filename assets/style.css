@@ -447,9 +447,10 @@
   @media (max-width:640px){.gallery{grid-auto-flow:column;grid-auto-columns:76%;overflow-x:auto;grid-template-columns:none;scroll-snap-type:x mandatory;padding-bottom:12px;}.gallery .dish{scroll-snap-align:start;}}
   .dish{
     position:relative;border-radius:18px;overflow:hidden;cursor:pointer;
-    background:var(--ink-2);opacity:0;transform:translateY(28px);
+    background:var(--ink-2);
     transition:opacity .7s var(--ease), transform .7s var(--ease);
   }
+  html.motion .dish{opacity:0;transform:translateY(28px);}
   .dish.in{opacity:1;transform:translateY(0);}
   .dish img{width:100%;aspect-ratio:4/4.7;object-fit:cover;transition:transform .7s var(--ease), filter .5s;}
   .dish:hover img{transform:scale(1.07);}
@@ -484,9 +485,9 @@
   .occ-card{
     position:relative;border-radius:18px;overflow:hidden;min-height:360px;
     display:flex;align-items:flex-end;
-    opacity:0;transform:translateY(28px);
     transition:opacity .7s var(--ease), transform .7s var(--ease);
   }
+  html.motion .occ-card{opacity:0;transform:translateY(28px);}
   .occ-card.in{opacity:1;transform:translateY(0);}
   .occ-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
   .occ-card:hover img{transform:scale(1.08);}
@@ -610,12 +611,14 @@
   .form-err{display:none;color:#C0392B;font-size:13px;margin-top:10px;text-align:center;}
 
   /* ============ Reveal helper ============ */
-  [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease), transform .9s var(--ease);}
-  [data-reveal].in{opacity:1;transform:translateY(0);}
-  [data-reveal="right"]{transform:translateX(-38px);}
-  [data-reveal="right"].in{transform:translateX(0);}
-  [data-reveal="left"]{transform:translateX(38px);}
-  [data-reveal="left"].in{transform:translateX(0);}
+  /* الإخفاء مرتبط بفئة motion التي يضيفها motion.js: إن تعطّل السكربت أو فشل
+     التحميل تبقى المحتويات ظاهرة افتراضياً ولا يُصبح أي قسم فارغاً بلا JS */
+  html.motion [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease), transform .9s var(--ease);}
+  [data-reveal].in, html.motion [data-reveal].in{opacity:1;transform:translateY(0);}
+  html.motion [data-reveal="right"]{transform:translateX(-38px);}
+  html.motion [data-reveal="right"].in{transform:translateX(0);}
+  html.motion [data-reveal="left"]{transform:translateX(38px);}
+  html.motion [data-reveal="left"].in{transform:translateX(0);}
 
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
@@ -814,6 +817,7 @@
     .edge-frost{
       position:fixed;inset-inline:0;top:0;z-index:5;pointer-events:none;
       height:calc(env(safe-area-inset-top,0px) + 14px);
+      background:linear-gradient(to bottom, var(--edge-live,var(--navy-deep)) 0%, transparent 100%);
       background:linear-gradient(to bottom, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
       -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
       opacity:.92;
@@ -821,6 +825,7 @@
     .edge-frost.br{
       top:auto;bottom:0;
       height:calc(env(safe-area-inset-bottom,0px) + 14px);
+      background:linear-gradient(to top, var(--edge-live,var(--navy-deep)) 0%, transparent 100%);
       background:linear-gradient(to top, var(--edge-live,var(--navy-deep)) 0%, color-mix(in srgb,var(--edge-live,var(--navy-deep)) 55%, transparent) 55%, transparent 100%);
     }
   }

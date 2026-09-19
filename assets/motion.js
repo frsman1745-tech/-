@@ -119,6 +119,24 @@ function startHero(){
       });
     }
   });
+
+  /* جوال ≤640px: شريط التقييم الأبيض (hero-strip) هو العنصر الظاهر فعلاً بدل بطاقة
+     الهيرو (display:contents) — نحرّك دخوله هنا لأن animation:CSS معطَّل تحت motion */
+  const strip = hero.querySelector('.hero-strip');
+  mm.add('(max-width:640px)', function(){
+    if(!strip) return;
+    return gsap.fromTo(strip, { opacity:0, y:14 }, { opacity:1, y:0, duration:.9, ease:'power3.out', delay:.55 });
+  });
+}
+
+/* تبديل اللغة يعيد بناء innerHTML للعنوان، فتُنشَأ أسطر h1 جديدة تبقى محبوسة في
+   translateY(110%) داخل overflow:hidden (كانت الحركة الأولى قد اكتملت على الأسطر
+   القديمة) → نعيد تهيئة الأسطر الجديدة وتشغيل دخولها عند كل shamieh:lang */
+function heroLineReveal(){
+  const spans = gsap.utils.toArray('#home h1 .line > span');
+  if(!spans.length) return;
+  gsap.set(spans, { yPercent:110, y:0 });
+  gsap.to(spans, { yPercent:0, duration:1.05, stagger:.13, ease:'power3.out', overwrite:'auto' });
 }
 
 function startReveals(){
@@ -241,11 +259,22 @@ function startComing(){
   if(!inner) return;
   const kids = Array.prototype.slice.call(inner.children);
   if(!kids.length) return;
-  gsap.from(kids, {
-    y:26, opacity:0,
-    duration:.85, stagger:.09,
-    ease:'power3.out', delay:.08
-  });
+  const run = function(){
+    gsap.from(kids, {
+      y:26, opacity:0,
+      duration:.85, stagger:.09,
+      ease:'power3.out', delay:.08
+    });
+  };
+  /* لا نُشغّل المشهد خلف شاشة الإقلاع (يضيع التأثير) — ننتظرها ثم نفسح لها مجالاً */
+  const boot = doc.getElementById('boot');
+  if(!boot || boot.classList.contains('done') || boot.hasAttribute('done')){ run(); return; }
+  const t = setInterval(function(){
+    if(!doc.getElementById('boot') || boot.classList.contains('done')){
+      clearInterval(t);
+      run();
+    }
+  }, 90);
 }
 
 /* ---------- Sweets: scroll-scrub "video" from image frames ---------- */
@@ -547,7 +576,10 @@ function init(){
     return;
   }
 
-  window.addEventListener('shamieh:lang', refresh);
+  window.addEventListener('shamieh:lang', function(){
+    heroLineReveal();
+    refresh();
+  });
   if(doc.fonts && doc.fonts.ready) doc.fonts.ready.then(refresh).catch(function(){});
   window.addEventListener('load', refresh);
   refresh();

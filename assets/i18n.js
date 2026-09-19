@@ -138,7 +138,62 @@
     mahashiText:{
       ar:'كوسا، ملفوف، ويبرق باللبن — طعم البيت الشامي الدافئ بأروع صورة.',
       en:'Stuffed courgettes, cabbage and vine leaves in yogurt — the warm taste of a Damascene home at its finest.'
-    }
+    },
+
+    /* ============ إتاحة / أريا ============ */
+    langToggleAria:{ar:'تبديل اللغة', en:'Switch language'},
+    burgerAria:{ar:'فتح القائمة', en:'Open menus'},
+    modalCloseAria:{ar:'إغلاق', en:'Close'},
+
+    /* ============ أصناف قائمة الحلو (sweets.html) ============ */
+    item01Title:{ar:'بقلاوة بالفستق الحلبي', en:'Pistachio Baklava'},
+    item01Text:{
+      ar:'عجينة رقيقة محشوّة بالفستق الحلبي، معمّرة القطر لنتيجة هشّة لا تُقاوم.',
+      en:'Thin sheets of pastry filled with Aleppo pistachio, steeped in syrup for an irresistible crunch.'
+    },
+    item01Tag:{ar:'فستق حلبي', en:'Aleppo Pistachio'},
+    item02Title:{ar:'كنافة بالقشطة', en:'Cream Knafeh'},
+    item02Text:{
+      ar:'خيوط كنافة ذهبية تتدفّق عليها قشطة طازجة وتُقطّر على السخونة بماء الورد.',
+      en:'Golden strands of shredded pastry topped with fresh cream and drizzled hot with rose water.'
+    },
+    item02Tag:{ar:'قشطة طازجة', en:'Fresh Cream'},
+    item03Title:{ar:'حلويات مشكّلة', en:'Assorted Sweets'},
+    item03Text:{
+      ar:'تشكيلة تجمع أرقى أصناف الشامية في صينية واحدة — مثالية لضمون وصالونات العيد.',
+      en:'A selection of Shamieh\'s finest in a single tray — perfect for occasions and Eid gatherings.'
+    },
+    item03Tag:{ar:'تشكيلة الشامية', en:'Shamieh Selection'},
+    item04Title:{ar:'بقلاوة بالجوز', en:'Walnut Baklava'},
+    item04Text:{
+      ar:'حشوة جوز فاخرة مع لمسة قرفة، مغموسة بقطر ذهبي ليسوّق الطعم الكلاسيكي.',
+      en:'A rich walnut filling with a hint of cinnamon, dipped in golden syrup for a classic finish.'
+    },
+    item04Tag:{ar:'جوز · قطر طبيعي', en:'Walnut · Natural Syrup'},
+    item05Title:{ar:'صينية السهرة', en:'Evening Tray'},
+    item05Text:{
+      ar:'صينية ملكية تجمع تشكيلة الحلو طرّاً — رفيقة مجالسكم وضيافتكم الكبيرة.',
+      en:'A royal tray bringing together the full assortment — the perfect companion for your gatherings.'
+    },
+    item05Tag:{ar:'للمناسبات', en:'For Occasions'},
+    item06Title:{ar:'معمول وغريبة', en:'Maamoul & Ghuraiba'},
+    item06Text:{
+      ar:'معمول محشو بالتمر والفستق مع غريبة تذوب في الفم — رفيقة القهوة في كل جلسة.',
+      en:'Date and pistachio maamoul with shortbread that melts in your mouth — the companion of Arabic coffee.'
+    },
+    item06Tag:{ar:'رفيقة القهوة', en:'Coffee Companion'},
+    item07Title:{ar:'قطايف بالقشطة', en:'Cream Qatayef'},
+    item07Text:{
+      ar:'قطايف مقلية ذهبية تُحشى بالقشطة الطازجة وتُقطّر بالعسل — حكاية رمضانية كاملة.',
+      en:'Golden fried qatayef filled with fresh cream and drizzled with honey — a full Ramadan story.'
+    },
+    item07Tag:{ar:'طازجة يومياً', en:'Made Fresh Daily'},
+    item08Title:{ar:'مربعات العسل', en:'Honey Squares'},
+    item08Text:{
+      ar:'مربعات معجّنة هشّة مغطاة بالعسل الطبيعي ورشّة فستق — لمسة حلو ختامية مثالية.',
+      en:'Crisp pastry squares coated in natural honey with a sprinkle of pistachio — the perfect sweet finish.'
+    },
+    item08Tag:{ar:'عسل · فستق', en:'Honey · Pistachio'}
   };
 
   function applyLang(lang){

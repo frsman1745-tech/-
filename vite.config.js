@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import { cpSync } from 'node:fs';
 
@@ -20,7 +19,6 @@ export default defineConfig({
   root,
   base: './',
   plugins: [
-    react(),
     copyDirToDist(
       fileURLToPath(new URL('imag 2/opt', import.meta.url)),
       fileURLToPath(new URL('dist/imag 2/opt', import.meta.url))
