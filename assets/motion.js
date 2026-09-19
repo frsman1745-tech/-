@@ -113,6 +113,83 @@ function startReveals(){
   });
 }
 
+/* ---------- Home: قائمة الشامية — معرض ملء الشاشة يزاح لليسار مع التمرير ---------- */
+function startCats(){
+  const sec = doc.getElementById('cats');
+  if(!sec) return;
+  const track = sec.querySelector('.cats-track');
+  const slides = track ? Array.prototype.slice.call(track.querySelectorAll('.cat-slide')) : [];
+  if(!slides.length) return;
+
+  if(!track || slides.length < 2 || reduce){
+    /* مسار بسيط (بدون حركة / JS عاجز): الشرائح مكدسة عمودياً */
+    sec.classList.add('cats-static');
+    return;
+  }
+
+  sec.classList.add('cats-scrub');
+  const unit = (window.CSS && CSS.supports && CSS.supports('height', '100svh')) ? 'svh' : 'vh';
+  sec.style.setProperty('--cats-h', 'calc(' + slides.length + ' * 100' + unit + ')');
+
+  const idx = doc.getElementById('catsIdx');
+  const fill = doc.getElementById('catsFill');
+  let lastIdx = -1;
+
+  gsap.to(track, {
+    x:function(){ return -(slides.length - 1) * window.innerWidth; },
+    ease:'none',
+    scrollTrigger:{
+      trigger:sec,
+      start:'top top',
+      end:'bottom bottom',
+      scrub:0.55,
+      invalidateOnRefresh:true,
+      onUpdate(self){
+        const p = self.progress;
+        const i = 1 + Math.min(slides.length - 1, Math.max(0, Math.round(p * (slides.length - 1))));
+        if(i !== lastIdx){
+          lastIdx = i;
+          if(idx) idx.textContent = ('0' + i).slice(-2);
+        }
+        if(fill) fill.style.transform = 'scaleX(' + p + ')';
+      }
+    }
+  });
+
+  /* ---------- كين-بيرنز خفيف: كل صورة تتنفس ببطء (تكبير→استواء) أثناء السير ---------- */
+  slides.forEach(function(s){
+    const img = s.querySelector('img');
+    if(!img) return;
+    gsap.fromTo(img, { scale:1.14, yPercent:1.4 }, {
+      scale:1.0, yPercent:-1.4,
+      ease:'none',
+      scrollTrigger:{ trigger:sec, start:'top top', end:'bottom bottom', scrub:0.55, invalidateOnRefresh:true }
+    });
+  });
+
+  /* ---------- دخول سينمائي للشريحة الأولى: العناصر تتتالى حين يقترب المعرض ---------- */
+  const first = slides[0];
+  if(first){
+    const kids = gsap.utils.toArray(first.querySelectorAll('.cat-body .tag, .cat-body h3, .cat-body p, .cat-body .go'));
+    if(kids.length){
+      gsap.fromTo(kids, { y:30, opacity:0 }, {
+        y:0, opacity:1, duration:.8, stagger:.09, ease:'power3.out', overwrite:true,
+        scrollTrigger:{ trigger:sec, start:'top 62%' }
+      });
+    }
+  }
+
+  /* ---------- انجراف متوازٍ خفيف لأجسام الشرائح (عمق بصري دون إخفاء المحتوى) ---------- */
+  slides.forEach(function(s){
+    const body = s.querySelector('.cat-body');
+    if(!body) return;
+    gsap.fromTo(body, { y:26 }, {
+      y:-26, ease:'none',
+      scrollTrigger:{ trigger:sec, start:'top top', end:'bottom bottom', scrub:0.55, invalidateOnRefresh:true }
+    });
+  });
+}
+
 function startComing(){
   const inner = doc.querySelector('.page-coming .inner');
   if(!inner) return;
@@ -379,7 +456,7 @@ function bindLenis(){
       const target = doc.querySelector(href);
       if(!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset:-72, duration:1.1 });
+      lenis.scrollTo(target, { duration:1.1 });
     });
   });
 
@@ -396,6 +473,7 @@ function bindLenis(){
 function init(){
   settleScrub();
   startHeaderTheme();
+  startCats();
   if(reduce){
     revealAll();
     return;

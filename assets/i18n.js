@@ -42,10 +42,10 @@
     heroSealAlt:{ar:'صينية بقلاوة مشكلة بالفستق الحلبي من الشامية', en:'Assorted pistachio baklava tray by Al Shamieh'},
     marqueeAria:{ar:'أصناف الشامية', en:'Al Shamieh products'},
     catsEyebrow:{ar:'قائمة الشامية', en:'Our Menu'},
-    catsTitle:{ar:'أربعة أقسام… ومذاق لا يُنسى', en:'Four categories, one unforgettable taste'},
+    catsTitle:{ar:'ستة أقسام… ومذاق لا يُنسى', en:'Six categories, one unforgettable taste'},
     catsLead:{
-      ar:'اخترنا لكم خلاصة المطبخ الدمشقي في أربعة أقسام: حلو طري، نواشف مقرمشة، مناسف سخية، ومحاشٍ على الطريقة المنزلية. تفضّلوا، فلكل ذوقٍ نصيب.',
-      en:'We gathered the best of the Damascene kitchen into four categories: soft sweets, crisp dried pastries, generous trays, and home-style stuffed dishes. There is something for every taste.'
+      ar:'اخترنا لكم خلاصة المطبخ الدمشقي في ستة أقسام: حلو طري، نواشف مقرمشة، غريبة ذائبة، مثلجات منعشة، مناسف سخية، ومحاشٍ على الطريقة المنزلية. تفضّلوا، فلكل ذوقٍ نصيب.',
+      en:'We gathered the best of the Damascene kitchen into six categories: soft sweets, crisp dried pastries, buttery ghuraiba, refreshing ice cream, generous trays, and home-style stuffed dishes. There is something for every taste.'
     },
     cardSweetTag:{ar:'Sweet', en:'Sweet'},
     cardSweetTitle:{ar:'الحلو', en:'Sweets'},
@@ -59,6 +59,12 @@
     cardMahashiTag:{ar:'Stuffed', en:'Stuffed'},
     cardMahashiTitle:{ar:'المحاشي', en:'Stuffed Dishes'},
     cardMahashiText:{ar:'كوسا، ملفوف، ويبرق باللبن — دفء البيت الشامي على مائدتكم.', en:'Stuffed courgettes, cabbage and vine leaves in yogurt — the warmth of a Damascene home.'},
+    cardGhuraibaTag:{ar:'Ghuraiba', en:'Ghuraiba'},
+    cardGhuraibaTitle:{ar:'الغريبة', en:'Ghuraiba'},
+    cardGhuraibaText:{ar:'غريبة دمشقية باللوز والفستق — تذوب في الفم وتتآلف مع فنجان القهوة الشامية.', en:'Buttery Damascene shortbread with almonds and pistachio — crumbles in your mouth next to Arabic coffee.'},
+    cardIceTag:{ar:'Ice Cream', en:'Ice Cream'},
+    cardIceTitle:{ar:'الآيس كريم', en:'Ice Cream'},
+    cardIceText:{ar:'مثلجات فاخرة بالحليب الطازج وماء الزهر — برودة دمشقية لعشاق الحلو.', en:'Premium ice cream made with fresh milk and orange blossom — a cool Damascene treat.'},
     cardGo:{ar:'تصفح القسم', en:'Browse category'},
     statsEyebrow:{ar:'أرقام', en:'Numbers'},
     statsTitle:{ar:'أرقام تحكي عن<br>حرفة توارثناها جيلاً بعد جيل', en:'Numbers that tell of a craft<br>passed down generation after generation'},
