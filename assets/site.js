@@ -9,10 +9,12 @@
   if(doc.body) doc.body.scrollTop = 0;
 
   var header = doc.getElementById('siteHeader');
+  var nav = doc.getElementById('siteNav');
   var lastY = window.scrollY;
   window.addEventListener('scroll', function(){
     var y = window.scrollY;
-    if(y > 160 && y > lastY){ if(header) header.classList.add('hidden'); }
+    var navOpen = nav && nav.classList.contains('open');
+    if(!navOpen && y > 160 && y > lastY){ if(header) header.classList.add('hidden'); }
     else { if(header) header.classList.remove('hidden'); }
     lastY = y;
   }, {passive:true});
@@ -28,6 +30,7 @@
   if(burger && nav){
     burger.addEventListener('click', function(){
       var open = nav.classList.toggle('open');
+      if(header) header.classList.remove('hidden');
       burger.classList.toggle('x', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });

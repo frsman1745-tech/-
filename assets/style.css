@@ -135,6 +135,13 @@
   .burger.x span:nth-child(2){opacity:0;}
   .burger.x span:nth-child(3){top:22px;transform:rotate(-45deg);}
   @media (max-width:1024px){
+    /* backdrop-filter ينشئ حاوية إحاطة للعناصر fixed داخل الشريط (حالة light)،
+       فتنحصر قائمة الجوال بمساحة الشريط وتفقد خلفيتها — نعطله هنا لتتنزّل القائمة
+       على الشاشة كلها كما يجب */
+    .site-header.light{backdrop-filter:none;}
+    /* عند فتح القائمة: تحرير الهيدر من أي تحويل (المخفية) كي يتنزل اللوح على
+       الشاشة كلها بدل أن ينحصر داخل الشريط */
+    .site-header:has(.site-nav.open){transform:none;}
     .site-nav{
       position:fixed;inset:0;z-index:-1;
       flex-direction:column;justify-content:center;gap:10px;
