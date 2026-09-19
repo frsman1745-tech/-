@@ -33,6 +33,9 @@ const DEFAULTS = {
   scope: document,
   selector: '[data-falcon]',
   once: true,
+  /* حاجز الدخول: لا تنطلق أي بطاقة قبل أن يدخل القسم الحاوي (menu) الشاشة فعلياً —
+     يفصل أنيميشينات الأصناف عن التمرير داخل منطقة الصور */
+  barrier: '.menu',
   start: { desktop: 'top 50%', mobile: 'top 45%' },
   duration: { desktop: 0.65, mobile: 0.55 },
   ease: 'power3.out',
@@ -95,6 +98,27 @@ export function initFalcon(opts){
       /* الإخفاء الوحيد يحدث هنا (gsap.set) وليس في CSS → visible-by-default */
       gsap.set(c, from);
 
+      /* حاجز الدخول + موقع البطاقة: لا تنطلق قبل دخول القسم الحاوي (menu) الشاشة،
+         وبعدها تُطلق عند وصولك الفعلي للبطاقة — مقاوم لقفز مواضع الأقسام على الجوال
+         (تغيّر ارتفاع شريط المتصفح أثناء التمرير داخل منطقة الصور) */
+      const vhFn = function(){ return window.innerHeight || (document.documentElement && document.documentElement.clientHeight); };
+      const docTopFn = function(el){ return el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0); };
+      const fracParts = String(cfg.start[mode]).split(' ');
+      const frac = (parseFloat(fracParts[fracParts.length - 1]) || 50) / 100;
+      const sec = cfg.barrier
+        ? (scope.querySelector(cfg.barrier) || (c.closest ? c.closest(cfg.barrier) : null))
+        : null;
+      const startPos = function(){
+        const v = vhFn();
+        let pos = Math.max(0, Math.round(docTopFn(c) - v * frac));
+        if(sec){
+          const barrier = Math.max(0, Math.round(docTopFn(sec) - v * 0.80));
+          pos = Math.max(pos, barrier);
+        }
+        return pos;
+      };
+      const scroller = document.scrollingElement || document.documentElement;
+
       const tween = gsap.to(c, Object.assign({}, cfg.to, {
         x: 0,
         duration: cfg.duration[mode],
@@ -102,10 +126,9 @@ export function initFalcon(opts){
         delay: drag || 0,
         overwrite: 'auto',
         scrollTrigger: {
-          trigger: c,
-          start: cfg.start[mode],
-          once: cfg.once !== false,
-          invalidateOnRefresh: true
+          trigger: scroller,
+          start: startPos,
+          once: cfg.once !== false
         },
         onStart: function(){
           /* تعطيل transition الخاصة بـ .item (sweets.css) أثناء الحركة:
