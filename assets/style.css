@@ -653,7 +653,12 @@
      (لا يمرّ الزائر للقسم التالي إلا بعد عرضها كلها؛ بلا أي سوايب يدوي) */
   @media (max-width:1079px){
     html.motion .cats{height:100svh;padding:0;}
-    html.motion .cats .container{max-width:none;padding:0;height:100svh;}
+    html.motion .cats .container{
+      max-width:none;padding:0;height:100svh;direction:ltr;
+    }
+    /* النص العربي داخل البطاقات والعنوان يبقى RTL مهما انقلبت الحاوية */
+    html.motion .cats .cat-head{direction:rtl;text-align:right;}
+    html.motion .cats-grid > .cat-card{direction:rtl;text-align:right;}
     html.motion .cat-head{
       position:absolute;inset-inline:0;top:0;margin:0;
       padding:max(30px,4.5svh) 22px 0;max-width:none;z-index:3;pointer-events:none;

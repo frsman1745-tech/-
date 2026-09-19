@@ -178,12 +178,10 @@ for (const name of ['mobile', 'tablet', 'desktop']) {
   const isDesktop = name === 'desktop';
   const driftMin = Math.min(...r.gridX);
   const pinned = r.secTopArr.some((t, i) => Math.abs(t) <= 2.5 && r.gridX[i] <= -(r.struct.vpWidth * 1.5));
-  /* أثناء التثبيت: أس peak موضع البداية (أقرب لصفر) وأقصى انزلاق يساري — من عينات المسح */
-  const pinnedTops = r.gridX.filter((x, i) => Math.abs(r.secTopArr[i]) <= 2.5);
-  const startX = Math.max(...pinnedTops);
   const maxTravel = Math.min(...r.gridX);
-  const firstCardShown = startX >= -(r.struct.vpWidth * 0.2);
-  const lastCardShown = maxTravel <= -((r.struct.cardsCount - 1) * r.struct.vpWidth * 0.9);
+  /* تحقق مباشر من مواقع البطاقات على الشاشة: الأولى عند التثبيت، الأخيرة عند الاكتمال */
+  const firstCardShown = r.firstCardRect.left >= -(r.struct.vpWidth * 0.2) && r.firstCardRect.left <= r.struct.vpWidth * 0.2;
+  const lastCardShown = r.lastCardRect.left >= -(r.struct.vpWidth * 0.2) && r.lastCardRect.left <= r.struct.vpWidth * 0.2;
   const deskWasHidden = r.firstSlide.some((s) => s.op < 0.15 && s.tx >= 60);
   const deskEndsIn = r.firstSlide.some((s) => s.op > 0.95 && Math.abs(s.tx) <= 6);
 
