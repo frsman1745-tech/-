@@ -405,7 +405,7 @@ function startScrub(){
       }
       if(bar) bar.style.transform = 'scaleY(' + lastProgress + ')';
       if(count) count.textContent = scrubPad(i);
-      if(!hinted && lastProgress > 0.03){
+      if(!hinted && lastProgress > 0.008){
         hinted = true;
         if(hint) hint.classList.add('hidden');
       }
@@ -458,6 +458,17 @@ function startScrub(){
   const copy = hero.querySelector('.scrub-copy');
   const chip = hero.querySelector('.scrub-chip');
   const meta = hero.querySelector('.scrub-meta');
+
+  /* ---------- النزول التلقائي عند الضغط على سهم "انزل للأسفل" ---------- */
+  if(hint){
+    hint.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const lenis = window.__lenis;
+      if(lenis){ lenis.scrollTo('#menu', { duration:1.4, easing:function(t){ return 1 - Math.pow(1 - t, 3); } }); }
+      else{ doc.getElementById('menu').scrollIntoView({ behavior:'smooth' }); }
+    });
+  }
 
   const tl = gsap.timeline({
     defaults:{ ease:'none' },
