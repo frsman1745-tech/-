@@ -113,8 +113,8 @@
       en:'Pistachio baklava, knafeh and assorted sweets — the finest in Damascus, made fresh every day.'
     },
     scrubAria:{ar:'مقطع تحضير حلويات الشامية', en:'Al Shamieh sweets-making clip'},
-    scrubHint:{ar:'انزل للأسفل', en:'Scroll down'},
-    scrubHintAria:{ar:'انزل للأسفل', en:'Scroll down'},
+    scrubHint:{ar:'اسحب للأسفل', en:'Scroll down'},
+    scrubHintAria:{ar:'اسحب للأسفل', en:'Scroll down'},
     scrubChipB:{ar:'حلويات الشامية', en:'Al Shamieh Sweets'},
     menuEyebrow:{ar:'تشكيلة الحلو', en:'Sweet Selection'},
     menuTitle:{ar:'أصناف تُحضَّر يومياً… بفستقٍ حلبي وقطرٍ طبيعي', en:'Made fresh daily… with Aleppo pistachio and natural syrup'},

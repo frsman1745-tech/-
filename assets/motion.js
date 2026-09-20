@@ -300,8 +300,6 @@ function startScrub(){
   let drawn = false;     /* هل رُسم فريم على اللوحة بعد؟ */
   let lastProgress = 0;
   let rafId = 0;
-  let hinted = false;
-
   function paintFrame(i){
     const im = pool[i];
     if(!im) return false;
@@ -405,9 +403,12 @@ function startScrub(){
       }
       if(bar) bar.style.transform = 'scaleY(' + lastProgress + ')';
       if(count) count.textContent = scrubPad(i);
-      if(!hinted && lastProgress > 0.008){
-        hinted = true;
-        if(hint) hint.classList.add('hidden');
+      /* الزر يختفي تدريجياً مع أول نزول ويعود لما ترجع للأعلى */
+      if(hint){
+        const t = Math.min(lastProgress / 0.12, 1);
+        const o = 1 - Math.max(t * t * (3 - 2 * t), 0);
+        hint.style.opacity = String(o);
+        hint.style.pointerEvents = o <= 0.02 ? 'none' : 'auto';
       }
     });
   }

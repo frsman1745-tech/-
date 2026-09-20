@@ -102,15 +102,15 @@
   .scrub-count small{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.1em;margin-top:3px;}
 
   .scrub-hint{
-    position:absolute;z-index:4;bottom:34px;left:50%;transform:translateX(-50%);
+    position:absolute;z-index:4;bottom:34px;left:50%;
     padding:0;border:0;background:none;color:#fff;font-family:inherit;
     cursor:pointer;
-    transition:opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease);
+    animation:hintFloat 3.4s ease-in-out infinite;
   }
-  .scrub-hint::before{ /* توهّج ذهبي خلف الكبسولة */
-    content:"";position:absolute;left:50%;top:50%;width:150px;height:70px;
+  .scrub-hint::before{ /* توهّج ذهبي يطوف مع الزر كاملاً */
+    content:"";position:absolute;left:50%;top:50%;width:160px;height:76px;
     transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
-    background:radial-gradient(closest-side,rgba(198,161,91,.34),transparent 72%);
+    background:radial-gradient(closest-side,rgba(198,161,91,.36),transparent 72%);
     filter:blur(18px);
     animation:hintPulse 3.4s ease-in-out infinite;
   }
@@ -126,7 +126,6 @@
       inset 0 0 0 1px rgba(255,255,255,.05),
       0 16px 42px rgba(0,0,0,.38),
       0 0 30px rgba(198,161,91,.18);
-    animation:hintFloat 3.4s ease-in-out infinite;
     transition:border-color .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
   }
   .scrub-hint:hover .sh-inner{
@@ -141,10 +140,10 @@
   .scrub-hint:focus-visible .sh-inner{outline:2px solid var(--gold-soft);outline-offset:3px;}
   .scrub-hint .sh-arrow{width:14px;height:14px;flex:none;opacity:.95;animation:hintDrop 1.7s ease-in-out infinite;}
   .scrub-hint .sh-arrow:last-child{animation-delay:.18s;}
-  @keyframes hintFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  @keyframes hintFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-10px);}}
   @keyframes hintDrop{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(5px);opacity:1;}}
   @keyframes hintPulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1);}50%{opacity:.95;transform:translate(-50%,-50%) scale(1.14);}}
-  .scrub-hint.hidden{opacity:0;transform:translate(-50%,22px) scale(.9);filter:blur(7px);pointer-events:none;}
+  .scrub-hint.hidden{pointer-events:none;}
 
   .scrub.scrub-static .scrub-frame{transform:none !important;}
   .scrub.scrub-static .scrub-meta{display:none;}
