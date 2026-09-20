@@ -466,7 +466,7 @@ function startScrub(){
       e.preventDefault();
       e.stopPropagation();
       const lenis = window.__lenis;
-      if(lenis){ lenis.scrollTo('#menu', { duration:1.4, easing:function(t){ return 1 - Math.pow(1 - t, 3); } }); }
+      if(lenis){ lenis.scrollTo('#menu', { duration:2.8, easing:function(t){ return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; } }); }
       else{ doc.getElementById('menu').scrollIntoView({ behavior:'smooth' }); }
     });
   }
