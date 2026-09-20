@@ -877,10 +877,13 @@
     box-shadow:0 0 12px rgba(198,161,91,.8);
   }
   @keyframes bootSpin{to{transform:rotate(360deg);}}
-  .boot-logo{
-    width:50px;height:50px;object-fit:cover;border-radius:50%;
+  .boot-circle{
+    width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;
     border:2px solid rgba(198,161,91,.55);outline:6px solid rgba(198,161,91,.12);
     background:var(--navy);box-shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  .boot-circle .boot-logo{
+    width:80px;height:80px;object-fit:cover;border-radius:50%;
   }
   .boot-name{font-family:'Aref Ruqaa',serif;font-size:2.4rem;color:var(--gold-soft);letter-spacing:.5px;}
   .boot-sub{font-family:'Tajawal',sans-serif;font-size:.92rem;color:rgba(231,213,168,.72);}
