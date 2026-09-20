@@ -878,7 +878,7 @@
   }
   @keyframes bootSpin{to{transform:rotate(360deg);}}
   .boot-logo{
-    width:96px;height:96px;object-fit:cover;border-radius:50%;
+    width:80px;height:80px;object-fit:cover;border-radius:50%;
     border:2px solid rgba(198,161,91,.55);outline:6px solid rgba(198,161,91,.12);
     background:var(--navy);box-shadow:0 10px 30px rgba(0,0,0,.45);
   }
