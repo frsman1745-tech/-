@@ -28,10 +28,11 @@
     burger.setAttribute('aria-expanded','false');
   }
   if(burger && nav){
-    /* فتح القائمة على الجوال = الانتقال لصفحة قائمة مستقلة (menu.html)
-       بحواف وخلفية خاصة بها — لا نفتح طبقة فوق الصفحة حتى لا نتدخل بحوافها */
     burger.addEventListener('click', function(){
-      window.location.href = 'menu.html';
+      var open = nav.classList.toggle('open');
+      if(header) header.classList.remove('hidden');
+      burger.classList.toggle('x', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
   }
