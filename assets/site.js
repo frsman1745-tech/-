@@ -49,6 +49,14 @@
   var y = doc.getElementById('year');
   if(y) y.textContent = new Date().getFullYear();
 
+  /* قفل تمرير مشترك بعدّاد — تُستخدمه شاشة التحميل ومعارض التكبير على أي صفحة:
+     كل مؤلّف يقفل (+1) ويفتح (-1)، ويُزال no-scroll فعلياً فقط عند صفر */
+  window.__scrollLock = function(lock){
+    var n = Math.max(0, (window.__scrollLocks || 0) + (lock ? 1 : -1));
+    window.__scrollLocks = n;
+    if(doc.body) doc.body.classList.toggle('no-scroll', n > 0);
+  };
+
   /* ==================== شاشة التحميل ==================== */
   var boot = doc.getElementById('boot');
   if(boot){
@@ -60,6 +68,7 @@
     var bootStart = Date.now();
     var shown = 0;
     var realDone = false;
+    var faded = false;
     var t1 = null, t2 = null, t3 = null;
 
     function paint(p){
@@ -68,8 +77,10 @@
       if(bootBar) bootBar.style.width = shown + '%';
     }
     function fade(){
+      if(faded) return;
+      faded = true;
       boot.classList.add('done');
-      setTimeout(function(){ boot.remove(); doc.body.classList.remove('no-scroll'); }, reduce ? 0 : 900);
+      setTimeout(function(){ boot.remove(); window.__scrollLock(false); }, reduce ? 0 : 900);
     }
     function settle(){
       var wait = Math.max(0, minShow - (Date.now() - bootStart));
@@ -114,7 +125,7 @@
     };
     setTimeout(function(){ fade(); }, maxShow); /* طوارئ: لا شيء يعلق للأبد */
 
-    doc.body.classList.add('no-scroll');
+    window.__scrollLock(true);
     paint(3);
     t1 = setTimeout(anim, 120);
   }

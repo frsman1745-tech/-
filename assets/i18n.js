@@ -194,7 +194,24 @@
       ar:'مربعات معجّنة هشّة مغطاة بالعسل الطبيعي ورشّة فستق — لمسة حلو ختامية مثالية.',
       en:'Crisp pastry squares coated in natural honey with a sprinkle of pistachio — the perfect sweet finish.'
     },
-    item08Tag:{ar:'عسل · فستق', en:'Honey · Pistachio'}
+    item08Tag:{ar:'عسل · فستق', en:'Honey · Pistachio'},
+
+    /* ============ صفحة معرض الصنف (product.html) ============ */
+    itemCta:{ar:'شاهد الصور', en:'View Gallery'},
+    backToMenu:{ar:'عودة إلى التشكيلة', en:'Back to the menu'},
+    productTag:{ar:'معرض الصنف', en:'Item Gallery'},
+    galleryEyebrow:{ar:'معرض الشامية', en:'Al Shamieh Gallery'},
+    galleryTitle:{ar:'صور من ورشة الشامية', en:'From the Al Shamieh kitchen'},
+    galleryLead:{
+      ar:'أربع لقطات من بين الأيدي التي تُشكّل هذا الصنف كل صباح — اضغط على أي صورة لتكبّرها وتتنقّل بينها براحتك.',
+      en:'Four shots from the hands that shape this item every morning — tap any image to enlarge and browse at your ease.'
+    },
+    galleryShot:{ar:'من معرض الشامية', en:'From Al Shamieh Gallery'},
+    moreSweets:{ar:'استعرض كل أصناف الحلو', en:'Browse all sweets'},
+    lbAria:{ar:'معرض تكبير الصور', en:'Enlarged image gallery'},
+    lbPrev:{ar:'السابقة', en:'Previous'},
+    lbNext:{ar:'التالية', en:'Next'},
+    lbClose:{ar:'إغلاق', en:'Close'}
   };
 
   function applyLang(lang){

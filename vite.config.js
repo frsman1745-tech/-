@@ -39,6 +39,7 @@ export default defineConfig({
       input: {
         home: page('index.html'),
         sweets: page('sweets.html'),
+        product: page('product.html'),
         dry: page('dry.html'),
         mansaf: page('mansaf.html'),
         mahashi: page('mahashi.html')

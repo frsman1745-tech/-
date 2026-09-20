@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-page="product">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>معرض الصنف | الشامية — Al Shamieh</title>
+<meta name="description" content="صور من ورشة حلويات الشامية — لقطات مقرّبة من تحضير وتقديم أصنافنا الطازجة كل يوم.">
+<link rel="icon" href="imeg/logo_white.svg">
+<link rel="apple-touch-icon" href="imeg/logo_white.svg">
+<meta property="og:title" content="معرض الصنف | الشامية">
+<meta property="og:description" content="صور من ورشة الشامية — اضغط لتكبّر وتنقّل.">
+<meta property="og:image" content="https://raw.githubusercontent.com/frsman1745-tech/-/main/assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/product.css">
+</head>
+<body>
+
+<!-- ==================== شاشة التحميل ==================== -->
+<div id="boot" class="boot" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <span class="boot-ring"><i></i></span>
+    <div class="boot-circle">
+      <img class="boot-logo" src="imeg/logo_white.svg" alt="الشامية" width="80" height="80">
+    </div>
+    <b class="boot-name">الشامية</b>
+    <small class="boot-sub">حلويات ومأكولات شامية أصيلة</small>
+    <em class="boot-pct"><b id="bootPct">0</b><span>٪</span></em>
+    <span class="boot-bar"><i id="bootBar"></i></span>
+  </div>
+</div>
+
+<!-- ============ Header ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container bar">
+    <a class="brand-logo" href="index.html" aria-label="الشامية — الرئيسية">
+      <img src="imeg/logo_white.svg" alt="شعار حلويات الشامية">
+    </a>
+    <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي" data-i18n="navAria" data-i18n-attr="aria-label">
+      <a href="index.html" data-i18n="navHome">الرئيسية</a>
+      <a href="sweets.html" class="on" data-i18n="navSweets">الحلو</a>
+      <a href="dry.html" data-i18n="navDry">النواشف</a>
+      <a href="mansaf.html" data-i18n="navMansaf">المناسف</a>
+      <a href="mahashi.html" data-i18n="navMahashi">المحاشي</a>
+      <a href="#contact" data-i18n="navContact">تواصل</a>
+    </nav>
+    <div class="header-cta">
+      <button class="lang-toggle" id="langToggle" type="button" aria-label="تبديل اللغة" data-i18n="langToggleAria" data-i18n-attr="aria-label">
+        <span id="langLabel">EN</span>
+      </button>
+      <a class="btn btn-gold" href="#contact" data-i18n="orderNow">اطلب الآن</a>
+      <button class="burger" id="burger" type="button" aria-label="فتح القائمة" data-i18n="burgerAria" data-i18n-attr="aria-label" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ Hero معرض الصنف ============ -->
+  <section class="pr-hero" id="prHero">
+    <div class="pr-bg">
+      <img id="prBg" src="imeg/opt/item-01.webp" alt="" aria-hidden="true">
+      <div class="pr-shade"></div>
+    </div>
+
+    <div class="pr-content">
+      <div class="pr-crumb">
+        <a href="sweets.html#menu" data-i18n="backToMenu">عودة إلى التشكيلة</a>
+      </div>
+
+      <span class="pr-kicker"><i></i><span data-i18n="productTag">معرض الصنف</span></span>
+      <h1 class="pr-title" id="prTitle">بقلاوة بالفستق الحلبي</h1>
+      <p class="pr-lead" id="prLead">عجينة رقيقة محشوّة بالفستق الحلبي، معمّرة القطر لنتيجة هشّة لا تُقاوم.</p>
+
+      <div class="pr-meta">
+        <span class="pr-tag" id="prTag"><i></i><span>فستق حلبي</span></span>
+        <span class="pr-count"><b id="prShot">4</b> <span data-i18n="galleryShot">من معرض الشامية</span></span>
+      </div>
+
+      <div class="pr-scroll" id="prScroll" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Gallery / المعرض ============ -->
+  <section class="gallery" id="gallery" data-light>
+    <div class="container">
+      <div class="gallery-head" data-reveal>
+        <span class="eyebrow" data-i18n="galleryEyebrow">معرض الشامية</span>
+        <h2 data-i18n="galleryTitle">صور من ورشة الشامية</h2>
+        <p data-i18n="galleryLead">أربع لقطات من بين الأيدي التي تُشكّل هذا الصنف كل صباح — اضغط على أي صورة لتكبّرها وتتنقّل بينها براحتك.</p>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <figure class="g-img" data-reveal>
+          <img src="imeg/opt/item-01.webp" alt="">
+          <span class="g-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+          <figcaption><b></b><small></small></figcaption>
+        </figure>
+        <figure class="g-img" data-reveal>
+          <img src="imeg/opt/item-02.webp" alt="">
+          <span class="g-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+          <figcaption><b></b><small></small></figcaption>
+        </figure>
+        <figure class="g-img" data-reveal>
+          <img src="imeg/opt/item-03.webp" alt="">
+          <span class="g-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+          <figcaption><b></b><small></small></figcaption>
+        </figure>
+        <figure class="g-img" data-reveal>
+          <img src="imeg/opt/item-04.webp" alt="">
+          <span class="g-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+          <figcaption><b></b><small></small></figcaption>
+        </figure>
+      </div>
+
+      <div class="gallery-cta" data-reveal>
+        <a class="btn btn-dark" href="sweets.html#menu" data-i18n="moreSweets">استعرض كل أصناف الحلو</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Contact / التواصل ============ -->
+  <section class="contact" id="contact">
+    <div class="container c-inner">
+      <img class="rose" src="imeg/logo_white.svg" alt="شعار الشامية" aria-hidden="true">
+      <h2 data-reveal data-i18n="contactTitle">جاهزون نضيف الحلو إلى مناسبتكم؟</h2>
+      <p class="lead" data-reveal data-i18n="contactLead">زورونا في فرعنا بدمشق، خلف قيادة الشرطة، أو راسلونا لنطّلعكم على تشكيلة اليوم ونجهّز طلبكم بأسرع وقت.</p>
+
+      <div class="contact-card" data-reveal>
+        <div class="brand-line" data-i18n="contactBrand">الشامية — Al Shamieh</div>
+        <div class="line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-i18n="contactAddr">دمشق، خلف قيادة الشرطة</span>
+        </div>
+        <div class="line en">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          <span>011 - 6033</span>
+        </div>
+        <div class="line en">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+          <span>@alshamiehdelights</span>
+        </div>
+      </div>
+
+      <div class="contact-actions" data-reveal>
+        <a class="btn btn-gold" href="tel:6033011" data-i18n="contactCall">اتصل الآن</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/alshamiehdelights/" target="_blank" rel="noopener" data-i18n="contactIg">افتح إنستغرام</a>
+      </div>
+      <div class="closing-phrase en">The Original Taste of the Levant</div>
+    </div>
+
+    <div class="container">
+      <footer class="site-footer">
+        <span>© <span id="year">2026</span> <span data-i18n="footerCopy">الشامية — حلويات ومأكولات شامية. جميع الحقوق محفوظة.</span></span>
+        <button class="to-top" id="toTop">
+          <span data-i18n="toTop">العودة للأعلى</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ Lightbox / معرض التكبير ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="معرض تكبير الصور" data-i18n="lbAria" data-i18n-attr="aria-label" aria-hidden="true">
+  <div class="lb-backdrop" data-lb="close" tabindex="-1"></div>
+  <button class="lb-close" data-lb="close" type="button" aria-label="إغلاق" data-i18n="lbClose" data-i18n-attr="aria-label">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb-arrow lb-prev" data-lb="prev" type="button" aria-label="السابقة" data-i18n="lbPrev" data-i18n-attr="aria-label">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <figure class="lb-figure">
+    <img id="lbImg" src="" alt="">
+    <figcaption>
+      <b id="lbCap">بقلاوة بالفستق الحلبي</b>
+      <small id="lbSub">من معرض الشامية — ١</small>
+    </figcaption>
+  </figure>
+  <button class="lb-arrow lb-next" data-lb="next" type="button" aria-label="التالية" data-i18n="lbNext" data-i18n-attr="aria-label">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <div class="lb-foot">
+    <span class="lb-count"><b id="lbCur">1</b><em>/</em><i id="lbTot">4</i></span>
+    <div class="lb-thumbs" id="lbThumbs" role="list"></div>
+  </div>
+</div>
+
+<script type="module" src="assets/i18n.js"></script>
+<script type="module" src="assets/site.js"></script>
+<script type="module" src="assets/motion.js"></script>
+<script type="module" src="assets/product.js"></script>
+</body>
+</html>
