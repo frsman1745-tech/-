@@ -36,7 +36,7 @@ const DEFAULTS = {
   /* حاجز الدخول: لا تنطلق أي بطاقة قبل أن يدخل القسم الحاوي (menu) الشاشة فعلياً —
      يفصل أنيميشينات الأصناف عن التمرير داخل منطقة الصور */
   barrier: '.menu',
-  start: { desktop: 'top 42%', mobile: 'top 70%' },
+  start: { desktop: 'top 70%', mobile: 'top 70%' },
   duration: { desktop: 0.65, mobile: 0.55 },
   ease: 'power3.out',
   from: {
