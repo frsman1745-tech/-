@@ -359,20 +359,23 @@
   /* ============ Marquee ============ */
   .marquee{
     background:linear-gradient(90deg,var(--gold-deep),var(--gold) 45%,var(--gold-soft) 100%);
-    overflow:hidden;
-    overflow:clip;
+    overflow:hidden;overflow:clip;
     contain:paint;
     padding:14px 0;position:relative;z-index:3;direction:ltr;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+    mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
   }
   [dir="rtl"] .marquee{direction:rtl;}
+  /* يبدأ الشريط دائماً من أول صنف (ترجمة 0) ويكمل مسافة واحدة كاملة (طول قائمة/2) فيقفل بسلاسة */
   .marquee-track{
     display:flex;width:max-content;will-change:transform;
     contain:layout paint style;
-    animation:marquee 34s linear infinite;
+    animation:marquee-ltr 20s linear infinite;
   }
-  /* في العربية نعكس اتجاه الحركة لتعود لليمين مع بقاء الحلقة سلسة */
-  [dir="rtl"] .marquee-track{animation-direction:reverse;}
+  /* في العربية يتحرك الفيد نحو اليمين (يدخل الصنف الجديد من اليسار) بما يناسب اتجاه القراءة */
+  [dir="rtl"] .marquee-track{animation-name:marquee-rtl;}
   .marquee:hover .marquee-track{animation-play-state:paused;}
+  @media (prefers-reduced-motion:reduce){.marquee-track{animation:none;}}
   .mq-item{
     display:inline-flex;align-items:center;gap:11px;
     margin-inline:10px;padding:6px 18px 6px 6px;border-radius:100px;
@@ -397,7 +400,8 @@
   }
   .mq-name{font-family:'Tajawal',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.01em;white-space:nowrap;}
   .marquee:hover .mq{transform:scale(1.08);}
-  @keyframes marquee{from{transform:translate3d(0,0,0);}to{transform:translate3d(-50%,0,0);}}
+  @keyframes marquee-ltr{from{transform:translate3d(0,0,0);}to{transform:translate3d(-50%,0,0);}}
+  @keyframes marquee-rtl{from{transform:translate3d(0,0,0);}to{transform:translate3d(50%,0,0);}}
 
   /* ============ Stats ============ */
   .stats{
